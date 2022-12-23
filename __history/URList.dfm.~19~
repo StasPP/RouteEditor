@@ -1,0 +1,212 @@
+object FRList: TFRList
+  Left = 0
+  Top = 0
+  Caption = 'FRList'
+  ClientHeight = 432
+  ClientWidth = 844
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object TrackPts: TStringGrid
+    Left = 0
+    Top = 0
+    Width = 684
+    Height = 432
+    Align = alClient
+    ColCount = 12
+    DefaultColWidth = 105
+    DefaultRowHeight = 16
+    FixedCols = 0
+    RowCount = 3
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect]
+    PopupMenu = PopupMenu1
+    TabOrder = 0
+    ExplicitWidth = 568
+    ExplicitHeight = 338
+  end
+  object Panel1: TPanel
+    Left = 684
+    Top = 0
+    Width = 160
+    Height = 432
+    Align = alRight
+    TabOrder = 1
+    ExplicitLeft = 568
+    ExplicitHeight = 338
+    object ScrollBox1: TScrollBox
+      Left = 1
+      Top = 1
+      Width = 158
+      Height = 430
+      Align = alClient
+      BorderStyle = bsNone
+      TabOrder = 0
+      ExplicitHeight = 363
+      object Bevel2: TBevel
+        Left = 0
+        Top = 0
+        Width = 134
+        Height = 417
+        Shape = bsSpacer
+      end
+      object Bevel1: TBevel
+        Left = 9
+        Top = 45
+        Width = 126
+        Height = 54
+        Shape = bsFrame
+      end
+      object Label1: TLabel
+        Left = 9
+        Top = 45
+        Width = 126
+        Height = 54
+        Cursor = crHandPoint
+        Alignment = taCenter
+        AutoSize = False
+        Caption = 'used CS 1111111111111111111111111 111111'
+        Layout = tlCenter
+        WordWrap = True
+        OnClick = Label1Click
+      end
+      object C5: TCheckBox
+        Left = 11
+        Top = 149
+        Width = 115
+        Height = 17
+        Caption = 'H (msl)'
+        TabOrder = 0
+        OnClick = C5Click
+      end
+      object C6: TCheckBox
+        Left = 11
+        Top = 171
+        Width = 115
+        Height = 17
+        Caption = 'Speed'
+        TabOrder = 1
+        OnClick = C5Click
+      end
+      object C8: TCheckBox
+        Left = 11
+        Top = 216
+        Width = 112
+        Height = 17
+        Caption = 'PDop'
+        TabOrder = 2
+        OnClick = C5Click
+      end
+      object C4: TCheckBox
+        Left = 11
+        Top = 126
+        Width = 115
+        Height = 17
+        Caption = 'H (Ellipsoid)'
+        TabOrder = 3
+        OnClick = C5Click
+      end
+      object C7: TCheckBox
+        Left = 11
+        Top = 193
+        Width = 115
+        Height = 17
+        Caption = 'Azimuth'
+        TabOrder = 4
+        OnClick = C5Click
+      end
+      object C12: TCheckBox
+        Left = 11
+        Top = 307
+        Width = 109
+        Height = 17
+        Caption = 'Comment'
+        TabOrder = 5
+        OnClick = C5Click
+      end
+      object C10: TCheckBox
+        Left = 11
+        Top = 261
+        Width = 115
+        Height = 17
+        Caption = 'Altitude'
+        TabOrder = 6
+        OnClick = C5Click
+      end
+      object C11: TCheckBox
+        Left = 11
+        Top = 284
+        Width = 115
+        Height = 17
+        Caption = 'Sat. N'
+        TabOrder = 7
+        OnClick = C5Click
+      end
+      object C9: TCheckBox
+        Left = 11
+        Top = 239
+        Width = 108
+        Height = 17
+        Caption = 'Route'
+        Checked = True
+        State = cbChecked
+        TabOrder = 8
+        OnClick = C5Click
+      end
+      object C3: TCheckBox
+        Left = 11
+        Top = 104
+        Width = 120
+        Height = 17
+        Caption = 'Lat-Lon WGS-84'
+        TabOrder = 9
+        OnClick = C5Click
+      end
+      object C2: TCheckBox
+        Left = 10
+        Top = 26
+        Width = 105
+        Height = 17
+        Caption = 'Coordinates'
+        Checked = True
+        Enabled = False
+        State = cbChecked
+        TabOrder = 10
+      end
+      object C1: TCheckBox
+        Left = 10
+        Top = 6
+        Width = 105
+        Height = 17
+        Caption = 'Date and Time'
+        Checked = True
+        Enabled = False
+        State = cbChecked
+        TabOrder = 11
+      end
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    OnPopup = PopupMenu1Popup
+    Left = 360
+    Top = 112
+    object N1: TMenuItem
+      Caption = #1055#1088#1080#1074#1103#1079#1072#1090#1100' '#1082' '#1084#1072#1088#1096#1088#1091#1090#1091
+      OnClick = N1Click
+      object N2: TMenuItem
+        Caption = '('#1085#1077#1090' '#1084#1072#1088#1096#1088#1091#1090#1072')'
+        OnClick = N2Click
+      end
+    end
+    object N3: TMenuItem
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      OnClick = N3Click
+    end
+  end
+end

@@ -1,0 +1,46 @@
+unit UGroupKnotRenum;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, ComCtrls, ExtCtrls, MapEditor;
+
+type
+  TFknotgrouprenum = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    KindA: TComboBox;
+    Label1: TLabel;
+    RadioGroup1: TRadioGroup;
+    GroupBox1: TGroupBox;
+    RPC: TPageControl;
+    TabSheet1: TTabSheet;
+    Label2: TLabel;
+    AddL1: TSpinEdit;
+    TabSheet2: TTabSheet;
+    Label3: TLabel;
+    AddL2: TSpinEdit;
+    RadioGroup2: TRadioGroup;
+    StepL: TSpinEdit;
+    Label4: TLabel;
+    procedure KindAChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Fknotgrouprenum: TFknotgrouprenum;
+
+implementation
+
+{$R *.dfm}
+
+procedure TFknotgrouprenum.KindAChange(Sender: TObject);
+begin
+  RPC.ActivePageIndex := KindA.ItemIndex;
+end;
+
+end.

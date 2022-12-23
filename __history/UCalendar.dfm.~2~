@@ -1,0 +1,34 @@
+object FCalendar: TFCalendar
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = #1042#1074#1077#1076#1080#1090#1077' '#1076#1072#1090#1091
+  ClientHeight = 212
+  ClientWidth = 229
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Button1: TButton
+    Left = 8
+    Top = 179
+    Width = 103
+    Height = 25
+    Caption = #1054#1050
+    TabOrder = 0
+  end
+  object Button2: TButton
+    Left = 117
+    Top = 179
+    Width = 104
+    Height = 25
+    Caption = #1054#1090#1084#1077#1085#1072
+    TabOrder = 1
+  end
+end

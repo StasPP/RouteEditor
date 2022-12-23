@@ -1,0 +1,40 @@
+unit UEopen;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, TrackFunctions, MapperFm;
+
+type
+  TEOpen = class(TForm)
+    Button1: TButton;
+    Image1: TImage;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  EOpen: TEOpen;
+
+implementation
+
+{$R *.dfm}
+
+procedure TEOpen.Button1Click(Sender: TObject);
+var S:TstringList;
+begin
+  SaveRTTFile(MainTrack,'Data\LastTrack.rtt', False);
+  S := TStringList.Create;
+  S.Add('Data\LastTrack.rtt');
+  
+  S.SaveToFile('Data\LastTrack.log');
+  S.Free;
+  winexec('EstimHgt.exe Data\LastTrack.log', sw_restore);
+  close;
+end;
+
+end.

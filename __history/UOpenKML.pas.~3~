@@ -1,0 +1,29 @@
+unit UOpenKML;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
+
+type
+  TKmlOpn = class(TForm)
+    CheckBox1: TCheckBox;
+    Button1: TButton;
+    CheckBox2: TCheckBox;
+    CheckBox3: TCheckBox;
+    Button2: TButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  KmlOpn: TKmlOpn;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -1,0 +1,1073 @@
+unit UTrackCS;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, TrackFunctions, StdCtrls, ExtCtrls, TabFunctions, GeoString, ComCtrls,
+  Buttons, FloatSpinEdit,  LangLoader, Spin;
+
+type
+  TFTrackCS = class(TForm)
+    ColSKind: TComboBox;
+    Label1: TLabel;
+    Button1: TButton;
+    GroupBox1: TGroupBox;
+    Label2: TLabel;
+    eMin: TEdit;
+    Label3: TLabel;
+    eMax: TEdit;
+    Button2: TButton;
+    GroupBox2: TGroupBox;
+    Label4: TLabel;
+    ColTemplates: TComboBox;
+    Prv1: TImage;
+    Bevel2: TBevel;
+    Button3: TButton;
+    Label5: TLabel;
+    isRnd: TCheckBox;
+    CPC: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Prv2: TImage;
+    ListBox1: TListBox;
+    DelT: TSpeedButton;
+    DelM: TSpeedButton;
+    AddM: TSpeedButton;
+    Button4: TButton;
+    Button5: TButton;
+    Button6: TButton;
+    Bevel1: TBevel;
+    GroupBox3: TGroupBox;
+    MrX_: TSpinEdit;
+    Label6: TLabel;
+    Label7: TLabel;
+    Edit1: TEdit;
+    Label8: TLabel;
+    MrkColor: TShape;
+    Bevel3: TBevel;
+    ColorDialog1: TColorDialog;
+    OkM: TSpeedButton;
+    ResM: TSpeedButton;
+    GroupBox4: TGroupBox;
+    DiscrScale: TRadioButton;
+    SmScale: TRadioButton;
+    Relev: TCheckBox;
+    R2: TCheckBox;
+    isRnd2: TCheckBox;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure ColSKindChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Preview(var Prv:TImage);
+    procedure FormDestroy(Sender: TObject);
+    procedure ColTemplatesChange(Sender: TObject);
+    procedure DiscrScaleClick(Sender: TObject);
+    procedure SmScaleClick(Sender: TObject);
+    procedure RelevClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
+    procedure DelTClick(Sender: TObject);
+    procedure isRndClick(Sender: TObject);
+    procedure ListBox1DrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure Button6Click(Sender: TObject);
+    procedure MrkColorMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ListBox1Click(Sender: TObject);
+    procedure AddMClick(Sender: TObject);
+    procedure OkMClick(Sender: TObject);
+
+    procedure MakeFloatSpins;
+    procedure DelMClick(Sender: TObject);
+    procedure ResMClick(Sender: TObject);
+    procedure MrX_Change(Sender: TObject);
+    procedure Button5Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure R2Click(Sender: TObject);
+    procedure isRnd2Click(Sender: TObject);
+    procedure PrepareSeries;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FTrackCS: TFTrackCS;
+  Templates: TStringList;
+  ItemsN: array of Integer;
+  Marx : array [0..1024] of TCSMark;
+  
+implementation
+
+var
+  MrX :TFloatSpinEdit;
+
+{$R *.dfm}
+
+
+
+procedure TFTrackCS.Button1Click(Sender: TObject);
+var I:Integer;
+begin
+  TrackColorSch.isOn := True;
+  TrackColorSch.Kind := ColSKind.ItemIndex;
+  TrackColorSch.isSmooth := SmScale.Checked;
+  TrackColorSch.Min := StrToFloat2(eMin.Text);
+  TrackColorSch.Max := StrToFloat2(eMax.Text);
+  TrackColorSch.isRound := isRnd.Checked;
+  //showmessage(intToStr(ListBox1.Count));
+
+  if SmScale.Checked = false then
+     PrepareSeries;
+
+  //showmessage(intToStr(ListBox1.Count));
+  TrackColorSch.CSMarkCount := ListBox1.Count;
+  for I := 0 to ListBox1.Count - 1 do
+  begin
+    TrackColorSch.CSMarks[I] := Marx[I];
+  end;
+
+  close;
+end;
+
+procedure TFTrackCS.Button2Click(Sender: TObject);
+begin
+  TrackCols := -2;
+  close;
+end;
+
+procedure TFTrackCS.Button3Click(Sender: TObject);
+begin
+  CPC.ActivePageIndex := 1;
+  isRnd2.Checked := isRnd.Checked;
+  Preview(Prv2);
+  ListBox1.ItemIndex := 0;
+  ListBox1.OnClick(nil);
+end;
+
+procedure TFTrackCS.Button4Click(Sender: TObject);
+var N :Integer; Di, Re, s :String;
+begin
+  s := inf[229];
+
+  if not InputQuery(inf[228], inf[228], s) then
+    exit;
+
+  if DiscrScale.Checked then
+     Di := '1'
+  else
+     Di := '0';
+
+  if Relev.Checked then
+     Re := '1'
+  else
+     Re := '0';
+
+  Templates.Add(  s + #$9 + IntToStr(ColSKind.ItemIndex) + #$9 +
+                  Di + #$9 + Re + #$9 + eMin.Text + #$9 + eMax.Text + #$9 +
+                  IntToStr(ListBox1.Items.Count) ) ;
+
+  for N := 0 to ListBox1.Items.Count - 1 do
+    Templates[Templates.Count-1] := Templates[Templates.Count-1] + #$9 + FloatToStr(Marx[N].Mark) + #$9 +
+            IntToStr(Marx[N].R) + #$9 + IntToStr(Marx[N].G) + #$9 + IntToStr(Marx[N].B);
+
+
+  CPC.ActivePageIndex := 0;
+  ColSKind.OnChange(nil);
+  ColTemplates.ItemIndex :=  ColTemplates.Items.Count -1;
+  ColTemplates.OnChange(nil);
+  Templates.SaveToFile('Data\TrackCol.loc');
+end;
+
+procedure TFTrackCS.Button5Click(Sender: TObject);
+var I, N:Integer; Di, Re :String;
+begin
+  N := ColTemplates.ItemIndex;
+
+  if N < 0 then
+    exit;
+
+  I := ItemsN[N];
+
+  if DiscrScale.Checked then
+     Di := '1'
+  else
+     Di := '0';
+
+  if Relev.Checked then
+     Re := '1'
+  else
+     Re := '0';
+
+  Templates[I] := GetCols(Templates[I], 0, 1, 1, false) + #$9 +
+                  GetCols(Templates[I], 1, 1, 1, false) + #$9 + /// ColSKind.ItemIndex
+                  Di + #$9 + Re + #$9 + eMin.Text + #$9 + eMax.Text + #$9 +
+                  IntToStr(ListBox1.Items.Count) ;
+
+  for N := 0 to ListBox1.Items.Count - 1 do
+    Templates[I] := Templates[I] + #$9 + FloatToStr(Marx[N].Mark) + #$9 +
+            IntToStr(Marx[N].R) + #$9 + IntToStr(Marx[N].G) + #$9 + IntToStr(Marx[N].B);
+
+
+  CPC.ActivePageIndex := 0;
+  Templates.SaveToFile('Data\TrackCol.loc');
+  ColTemplates.OnChange(nil);
+end;
+
+procedure TFTrackCS.Button6Click(Sender: TObject);
+begin
+  CPC.ActivePageIndex := 0;
+  ColTemplates.OnChange(nil);
+end;
+
+procedure TFTrackCS.R2Click(Sender: TObject);
+var I, i2, J, N, CNT :Integer; D, Rmin, Rmax:Double;
+begin
+ ListBox1.Items.Clear;
+ N := ColTemplates.ItemIndex;
+
+ if N < 0 then
+   exit;
+
+ I := ItemsN[N];
+
+ DelT.Enabled := StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) >= 0;
+ //Button5.Enabled := DelT.Enabled;
+ R2.Enabled := DelT.Enabled;
+
+ SmScale.Checked := GetCols(Templates[I], 2, 1, 1, false) = '0';
+ DiscrScale.Checked := GetCols(Templates[I], 2, 1, 1, false) <> '0';
+
+ //Relev.Checked := GetCols(Templates[I], 3, 1, 1, false) = '0';
+ //R2.Checked := Relev.Checked;
+
+ Rmin := StrToFloat2(GetCols(Templates[I], 4, 1, 1, false));
+ Rmax := StrToFloat2(GetCols(Templates[I], 5, 1, 1, false));
+ CNT := StrToInt(GetCols(Templates[I], 6, 1, 1, false));
+
+ FTrackCS.ListBox1.Items.Clear;
+
+ for I2 := 0 to CNT - 1 do
+ begin
+    j := 7 + I2*4;
+    D := StrToFloat2(GetCols(Templates[I], j, 1, 1, false));
+    if R2.Checked then
+    begin
+      D := (D - Rmin)/(Rmax - Rmin);
+      D := StrToFloat2(eMin.Text)+ D*(StrToFloat2(eMax.Text) - StrToFloat2(eMin.Text));
+    end;
+
+    Marx[ListBox1.Items.Count].Mark := D;
+    Marx[ListBox1.Items.Count].R := Trunc(StrToFloat2(GetCols(Templates[I], j+1, 1, 1, false)));
+    Marx[ListBox1.Items.Count].G := Trunc(StrToFloat2(GetCols(Templates[I], j+2, 1, 1, false)));
+    Marx[ListBox1.Items.Count].B := Trunc(StrToFloat2(GetCols(Templates[I], j+3, 1, 1, false)));
+  //  ListBox1.Items.Add(Format('%n',[D]));
+    case isRnd.Checked of
+      true:  FTrackCS.ListBox1.Items.Add(IntToStr(round(D)));
+      false: FTrackCS.ListBox1.Items.Add(Format('%n',[D]));
+    end;
+ end;
+
+ case CPC.ActivePageIndex of
+    0: Preview(Prv1);
+    1: Preview(Prv2);
+ end;
+
+//  Relev.Checked := R2.Checked;
+//  Relev.OnClick(nil);
+end;
+
+procedure TFTrackCS.ColSKindChange(Sender: TObject);
+
+
+var I:Integer; S:TStringList; NeedAdd:Boolean;
+    min, max : Double;
+begin
+
+  ColTemplates.Items.Clear;
+  SetLength(ItemsN, Templates.Count);
+
+  case ColsKind.ItemIndex of
+     0: begin
+        Min :=  MainTrack[0].Altitude; Max :=  MainTrack[0].Altitude;
+     end;
+     1: begin
+        Min :=  MainTrack[0].AltR;     Max :=  MainTrack[0].AltR;
+     end;
+     2: begin
+        Min :=  MainTrack[0].AltL;     Max :=  MainTrack[0].AltL;
+     end;
+     3: begin
+        Min :=  MainTrack[0].H;        Max :=  MainTrack[0].H;
+     end;
+     4: begin
+        Min :=  MainTrack[0].Hgeo;     Max :=  MainTrack[0].Hgeo;
+     end;
+     5: begin
+        Min :=  MainTrack[0].Speed;    Max :=  MainTrack[0].Speed;
+     end;
+     6: begin
+        Min :=  MainTrack[0].SatN;     Max :=  MainTrack[0].SatN;
+        isRnd.Checked := true;
+     end;
+     7: begin
+        Min :=  MainTrack[0].PDOP;     Max :=  MainTrack[0].PDOP;
+        isRnd.Checked := false;
+     end;
+
+  end;
+
+
+  for I := 0 to Length(MainTrack) - 1 do
+    case ColsKind.ItemIndex of
+       0: begin
+        if MainTrack[I].Altitude < Min then
+           Min :=  MainTrack[I].Altitude;
+        if MainTrack[I].Altitude > Max then
+          Max :=  MainTrack[I].Altitude;
+       end;
+       1: begin
+        if MainTrack[I].AltR < Min then
+          Min :=  MainTrack[I].AltR;
+        if MainTrack[I].AltR > Max then
+          Max :=  MainTrack[I].AltR;
+       end;
+       2: begin
+        if MainTrack[I].AltL < Min then
+          Min :=  MainTrack[I].AltL;
+        if MainTrack[I].AltL > Max then
+          Max :=  MainTrack[I].AltL;
+       end;
+       3: begin
+        if MainTrack[I].H < Min then
+          Min :=  MainTrack[I].H;
+        if MainTrack[I].H > Max then
+          Max :=  MainTrack[I].H;
+       end;
+       4: begin
+        if MainTrack[I].Hgeo <  Min then
+          Min :=  MainTrack[I].Hgeo;
+        if MainTrack[I].Hgeo >  Max then
+          Max :=  MainTrack[I].Hgeo;
+       end;
+       5: begin
+        if MainTrack[I].Speed < Min then
+          Min :=  MainTrack[I].Speed;
+        if MainTrack[I].Speed > Max then
+          Max :=  MainTrack[I].Speed;
+       end;
+       6: begin
+        if MainTrack[I].SatN < Min then
+          Min :=  MainTrack[I].SatN;
+        if MainTrack[I].SatN > Max then
+          Max :=  MainTrack[I].SatN;
+       end;
+       7: begin
+        if MainTrack[I].PDOP < Min then
+          Min :=  MainTrack[I].PDOP;
+        if MainTrack[I].PDOP > Max then
+          Max :=  MainTrack[I].PDOP;
+       end;
+
+    end;
+
+  case ColsKind.ItemIndex of
+      0..4, 7: begin
+        eMin.Text := Format('%n',[min]);
+        eMax.Text := Format('%n',[max]);
+      end;
+      5: begin
+        eMin.Text := IntToStr(trunc(min));
+        eMax.Text := IntToStr(trunc(max)+1);
+      end;
+      6: begin
+        eMin.Text := IntToStr(trunc(min));
+        eMax.Text := IntToStr(trunc(max));
+      end;
+  end;
+
+  for I := 0 to Templates.Count - 1 do
+  begin
+    case ColsKind.ItemIndex of
+      0, 1, 2: NeedAdd := (StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) >= 0) and
+                           (StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) < 3);
+      3, 4 : NeedAdd := (StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) >= 3) and
+                      (StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) <= 4);
+      else  NeedAdd := StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) = ColsKind.ItemIndex;
+    end;
+
+    if (GetCols(Templates[I], 1, 1, 1, false) = '-1') or
+       (StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) = -ColsKind.ItemIndex) then
+          NeedAdd := true;
+
+    if NeedAdd then
+    begin
+     ColTemplates.Items.Add(GetCols(Templates[I],0, 1, 1, false));
+     ItemsN[ColTemplates.Items.Count-1] := I;
+    end;
+
+    ColTemplates.ItemIndex := 0;
+    ColTemplates.OnChange(nil);
+  end;
+
+
+
+end;
+
+procedure RefreshList;
+var I, MaxM, j :Integer;
+begin
+  j := FTrackCS.ListBox1.ItemIndex;
+  MaxM := FTrackCS.ListBox1.Items.Count;
+
+  FTrackCS.ListBox1.Items.Clear;
+  for I := 0 to MaxM -1 do
+  case FTrackCS.isRnd.Checked of
+    true:  FTrackCS.ListBox1.Items.Add(IntToStr(round(Marx[I].Mark)));
+    false: FTrackCS.ListBox1.Items.Add(Format('%n',[Marx[I].Mark]));
+  end;
+
+  FTrackCS.ListBox1.ItemIndex := j;
+  FTrackCS.ListBox1.Repaint;
+end;
+
+procedure TFTrackCS.ColTemplatesChange(Sender: TObject);
+var I, i2, J, N, CNT :Integer; D, Rmin, Rmax:Double;
+begin
+ 
+ N := ColTemplates.ItemIndex;
+
+ if N < 0 then
+   exit;
+
+ I := ItemsN[N];
+
+ DelT.Enabled := StrToFloat2(GetCols(Templates[I], 1, 1, 1, false)) >= 0;
+ Button5.Enabled := DelT.Enabled;
+ R2.Enabled := DelT.Enabled;
+
+ SmScale.Checked := GetCols(Templates[I], 2, 1, 1, false) = '0';
+ DiscrScale.Checked := GetCols(Templates[I], 2, 1, 1, false) <> '0';
+
+ Relev.Checked := GetCols(Templates[I], 3, 1, 1, false) = '1';
+ R2.Checked := Relev.Checked;
+
+ Rmin := StrToFloat2(GetCols(Templates[I], 4, 1, 1, false));
+ Rmax := StrToFloat2(GetCols(Templates[I], 5, 1, 1, false));
+ CNT := StrToInt(GetCols(Templates[I], 6, 1, 1, false));
+
+ ListBox1.Items.Clear;
+ for I2 := 0 to CNT - 1 do
+ begin
+    j := 7 + I2*4;
+    D := StrToFloat2(GetCols(Templates[I], j, 1, 1, false));
+    if R2.Checked then
+    begin
+      D := (D - Rmin)/(Rmax - Rmin);
+      D := StrToFloat2(eMin.Text)+ D*(StrToFloat2(eMax.Text) - StrToFloat2(eMin.Text));
+    end;
+
+    Marx[ListBox1.Items.Count].Mark := D;
+    Marx[ListBox1.Items.Count].R := Trunc(StrToFloat2(GetCols(Templates[I], j+1, 1, 1, false)));
+    Marx[ListBox1.Items.Count].G := Trunc(StrToFloat2(GetCols(Templates[I], j+2, 1, 1, false)));
+    Marx[ListBox1.Items.Count].B := Trunc(StrToFloat2(GetCols(Templates[I], j+3, 1, 1, false)));
+  //  ListBox1.Items.Add(Format('%n',[D]));
+    case isRnd.Checked of
+      true:  ListBox1.Items.Add(IntToStr(round(D)));
+      false: ListBox1.Items.Add(Format('%n',[D]));
+    end;
+ end;
+
+ case CPC.ActivePageIndex of
+    0: Preview(Prv1);
+    1: Preview(Prv2);
+ end;
+
+
+end;
+
+procedure TFTrackCS.DelMClick(Sender: TObject);
+var I, j:Integer;
+begin
+  j := ListBox1.ItemIndex;
+
+  if j = -1 then
+    exit;
+    
+  for I := j to ListBox1.Items.Count - 2 do
+     Marx[I] := Marx[I+1];
+
+  //dec(MarxCount);
+
+  if j > 0 then
+    dec(j);
+
+  ListBox1.Items.Delete(j);
+
+  RefreshList;
+
+  ListBox1.ItemIndex := j;
+  ListBox1.OnClick(nil);
+  Preview(Prv2);
+end;
+
+procedure TFTrackCS.DelTClick(Sender: TObject);
+var I, N :Integer;
+begin
+ if MessageDlg(inf[224], mtConfirmation,  mbYesNo, 0) <> 6 then
+   exit;
+
+  N := ColTemplates.ItemIndex;
+
+ if N < 0 then
+   exit;
+
+ I := ItemsN[N];
+
+ Templates.Delete(I);
+ Templates.SaveToFile('Data\TrackCol.loc');
+ ColSKind.OnChange(nil);
+end;
+
+procedure TFTrackCS.DiscrScaleClick(Sender: TObject);
+begin
+ case CPC.ActivePageIndex of
+    0: Preview(Prv1);
+    1: Preview(Prv2);
+ end;
+ ListBox1.OnClick(nil);
+end;
+
+procedure TFTrackCS.FormCreate(Sender: TObject);
+begin
+  Templates := TStringList.Create;
+  Templates.LoadFromFile('Data\TrackCol.loc');
+  MakeFloatSpins;
+end;
+
+procedure TFTrackCS.FormDestroy(Sender: TObject);
+begin
+  Templates.Free;
+  MrX.Destroy;
+end;
+
+procedure TFTrackCS.FormShow(Sender: TObject);
+var j, I:Integer;
+begin
+  Templates.LoadFromFile('Data\TrackCol.loc');
+  CPC.ActivePageIndex := 0;
+  ColSKind.OnChange(nil);
+  ColTemplates.OnChange(nil);
+
+  j := ColSKind.ItemIndex;
+  for I := 0 to ColSKind.Items.Count - 1 do
+    ColSKind.Items[I] := Inf[230+ I] ;
+  ColSKind.ItemIndex := j;
+end;
+
+procedure TFTrackCS.MakeFloatSpins;
+ procedure ChangeToSpin(FormI, ObjI: Integer);
+ var SPF :TFloatSpinEdit; s, s2:string; o:TWinControl; i:integer;
+     e1, e2 : TNotifyEvent;
+ begin
+    if Application.Components[FormI] is TForm then
+    with Application.Components[FormI] as TForm Do
+    Try
+      for I := 0 to ComponentCount - 1 do
+      if Components[I] is TFloatSpinEdit then
+      BEGIN
+          s  := TSpinEdit(Components[ObjI]).Name;
+          s2 := TFloatSpinEdit(Components[I]).Name;
+
+          //showmessage(AnsiLowerCase(s2)+'//'+AnsiLowerCase(Copy(s, 1, length(s)-1)));
+          if AnsiLowerCase(s2) = AnsiLowerCase(Copy(s, 1, length(s)-1)) then
+          begin
+             o := TSpinEdit(Components[ObjI]).Parent;
+             e1 := TSpinEdit(Components[ObjI]).OnClick;
+             e2 := TSpinEdit(Components[ObjI]).OnChange;
+             TFloatSpinEdit(Components[I]).Left := TSpinEdit(Components[ObjI]).Left;
+             TFloatSpinEdit(Components[I]).Top := TSpinEdit(Components[ObjI]).Top;
+             TFloatSpinEdit(Components[I]).Width := TSpinEdit(Components[ObjI]).Width;
+             TFloatSpinEdit(Components[I]).Height := TSpinEdit(Components[ObjI]).Height;
+             TFloatSpinEdit(Components[I]).Value := TSpinEdit(Components[ObjI]).Value;
+             TFloatSpinEdit(Components[I]).MinValue := TSpinEdit(Components[ObjI]).MinValue;
+             TFloatSpinEdit(Components[I]).MaxValue := TSpinEdit(Components[ObjI]).MaxValue;
+             TFloatSpinEdit(Components[I]).Increment := TSpinEdit(Components[ObjI]).Increment;
+             if o <> nil then
+               TFloatSpinEdit(Components[I]).Parent := o;
+
+             TFloatSpinEdit(Components[I]).OnClick := e1;
+             TFloatSpinEdit(Components[I]).OnChange := e2;
+            TSpinEdit(Components[ObjI]).Hide;
+            Break;
+          end;
+       END;
+
+    Except
+      Showmessage('Extended spin error');
+    End;
+ end;
+
+
+
+const A :Array [0..0] of String = ('MrX_');
+var I, j, k :Integer;
+begin
+
+   
+
+
+   for i := 0 to Application.ComponentCount - 1 do
+     if Application.Components[I] is TForm then
+     begin
+        if Application.Components[I].Name <> Name then
+          continue
+        else
+        begin
+          with Application.Components[I] as TForm Do
+          Begin
+            MrX := TFloatSpinEdit.Create(self);
+            MrX.Name := 'MrX';
+
+            for k := 0 to Length(A)-1 do
+            for j := 0 to ComponentCount - 1 do
+            begin
+              if Components[J] is TSpinEdit then
+                if AnsiLowerCase(Components[J].Name) = AnsiLowerCase(A[k]) then
+                begin
+                   ChangeToSpin(I, J);
+                   refresh;
+                   break;
+                end;
+            end;
+            break;
+          end;
+        end;
+     end;
+
+end;
+
+
+procedure TFTrackCS.MrkColorMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  if ColorDialog1.Execute then
+  begin
+    MrkColor.Brush.Color := ColorDialog1.Color;
+    ResM.Enabled := True;
+    OkM.Enabled := True;
+    Preview(Prv2);
+  end;
+end;
+
+procedure TFTrackCS.MrX_Change(Sender: TObject);
+var I:Integer;
+begin
+  ResM.Enabled := True;
+  OkM.Enabled := True;
+  Preview(Prv2);
+
+  for I := 0 to ListBox1.Items.Count - 1 do
+  begin
+    if (MrX.Value <= Marx[I].Mark) and (I <> ListBox1.ItemIndex)  then
+    begin
+      Edit1.Text := Format('%n',[Marx[I].Mark]);
+      break;
+    end;
+  end;
+
+  Edit1.Visible := (DiscrScale.Checked) and
+                   (MrX.Value <= Marx[ListBox1.Items.Count - 1].Mark);
+  Label7.Visible := Edit1.Visible;
+  
+end;
+
+procedure TFTrackCS.isRnd2Click(Sender: TObject);
+begin
+  isRnd.Checked := isRnd2.Checked;
+  isRnd.OnClick(nil);
+end;
+
+procedure TFTrackCS.isRndClick(Sender: TObject);
+begin
+ case CPC.ActivePageIndex of
+    0: begin
+     // isRnd2.Checked := isRnd.Checked;
+      Preview(Prv1);
+    end;
+    1: begin
+     // isRnd.Checked := isRnd2.Checked;
+      Preview(Prv2);
+    end;
+ end;
+ RefreshList;
+end;
+
+procedure TFTrackCS.ListBox1Click(Sender: TObject);
+begin
+  AddM.Enabled := ListBox1.Items.Count < 128;
+  DelM.Enabled := ListBox1.ItemIndex >= 0;
+  GroupBox3.Enabled := DelM.Enabled;
+  if ListBox1.ItemIndex >= 0 then
+  begin
+    MrX.Value := trunc(Marx[ListBox1.ItemIndex].Mark*1000)/1000;
+    MrkColor.Brush.Color := RGB( Marx[ListBox1.ItemIndex].R,
+                                 Marx[ListBox1.ItemIndex].G,
+                                 Marx[ListBox1.ItemIndex].B)
+  end;
+
+  if DiscrScale.Checked and (ListBox1.ItemIndex < ListBox1.Items.Count-1) then
+  begin
+    Label7.Visible := true;
+    Edit1.Visible := true;
+    Edit1.Text := Format('%n',[Marx[ListBox1.ItemIndex+1].Mark]);
+  end
+   else
+   begin
+     Label7.Visible := false;
+     Edit1.Visible := false;
+   end;
+
+   ResM.Enabled := false;
+   OkM.Enabled := false;
+end;
+
+procedure TFTrackCS.ListBox1DrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+var C1, C2: TColor;
+begin
+
+  with (Control as TListBox).Canvas do
+  begin
+    FillRect(Rect);
+    C1 :=  ListBox1.Canvas.Brush.Color;
+    C2 :=  ListBox1.Canvas.Pen.Color;
+
+    if Index < 1024 then
+    begin
+      ListBox1.Canvas.Pen.Color := clBlack;
+      ListBox1.Canvas.Brush.Color := RGB(Marx[Index].R, Marx[Index].G, Marx[Index].B);
+      ListBox1.Canvas.Rectangle(Rect.Left + 2, Rect.Top+2, 8, Rect.Bottom - 2);
+    end;
+
+    ListBox1.Canvas.Brush.Color := C1;
+    ListBox1.Canvas.Pen.Color := C2;
+
+    TextOut(Rect.Left + 15, Rect.Top, (Control as TListBox).Items[Index])
+  end;
+end;
+
+procedure TFTrackCS.PrepareSeries;
+var I, Ib, Ie :Integer;
+begin
+
+  Ib := 0;
+  Ie := ListBox1.Items.Count - 1;
+  
+  for I := 0 To ListBox1.Items.Count - 1 do
+     if Marx[I].Mark > TrackColorSch.min then
+     begin
+       Ib := I;
+       break;
+     end;
+
+  if Ib = 0 then
+  begin
+    ListBox1.ItemIndex := 0;
+    AddM.Click;
+    Marx[0].Mark := TrackColorSch.min;
+  end
+  else
+    begin
+       Marx[Ib-1].Mark := TrackColorSch.min;
+       for I := Ib - 2 DownTo 0 do
+       begin
+           ListBox1.ItemIndex := I;
+           DelM.Click;
+       end;
+    end;
+
+  for I := ListBox1.Items.Count - 1 DownTo 0 do
+     if Marx[I].Mark < TrackColorSch.max then
+     begin
+       Ie := I;
+       break;
+     end;
+
+  if Ie = ListBox1.Items.Count - 1 then
+  begin
+    ListBox1.ItemIndex := ListBox1.Items.Count - 1;
+    AddM.Click;
+    Marx[ListBox1.Items.Count - 1].Mark := TrackColorSch.max;
+  end
+    else
+    begin
+      Marx[Ie + 1].Mark := TrackColorSch.max;
+      for I := ListBox1.Items.Count - 1 downto Ie + 2 do
+      begin
+           ListBox1.ItemIndex := I;
+           DelM.Click;
+      end;
+    end;
+
+end;
+
+procedure TFTrackCS.Preview(var Prv:TImage);
+var stW, lastX, eX  :Integer;  min, max :Double;
+
+  function MarkSt(D:Double):String;
+  begin
+     case isRnd.Checked of
+       true:   result := IntToStr(round(D));
+       false:  result := Format('%n',[D]);
+     end;
+     stW := PrV.Canvas.TextWidth(result);
+  end;
+
+  procedure PutMark(X:Double);
+  var iX: Double;      St :String;
+  begin
+    St := MarkSt(X);
+
+    if X = min then
+    BEGIN
+      Prv.Canvas.Pen.Color := clBlack;
+      Prv.Canvas.MoveTo(9, 17);
+      Prv.Canvas.LineTo(9, 23);
+
+      if stW > 20 then
+      begin
+        Prv.Canvas.TextOut(1, 25, St);
+        lastX := stW+5;
+      end
+      else
+        begin
+          Prv.Canvas.TextOut(10 - stW div 2, 25, St);
+          lastX := 5 - stW div 2
+        end;
+    END ELSE
+    if X = max then
+    BEGIN
+      Prv.Canvas.Pen.Color := clBlack;
+      Prv.Canvas.MoveTo(Prv.Width - 10, 17);
+      Prv.Canvas.LineTo(Prv.Width - 10, 23);
+
+      if stW > 20 then
+      begin
+        Prv.Canvas.TextOut(Prv.Width - StW - 1, 25, St);
+        eX := Prv.Width - StW - 5;
+      end
+       else
+       begin
+         Prv.Canvas.TextOut(Prv.Width - StW div 2 - 10, 25, St);
+         eX := Prv.Width - StW div 2 - 15;
+       end;
+    END ELSE
+    BEGIN
+      if (X < min ) or (x > max ) then
+         exit;
+
+      iX := (X - min) / (max - min);
+      iX := 10 + iX*(Prv.Width - 20);
+
+      Prv.Canvas.Pen.Color := clBlack;
+      Prv.Canvas.MoveTo(Trunc(iX),17);
+      Prv.Canvas.LineTo(Trunc(iX),23);
+
+      if (iX - StW/2 > lastX) and (iX + StW/2 < eX) then
+      begin
+        Prv.Canvas.TextOut( -StW div 2 + trunc(iX), 25, St);
+        lastX := trunc(iX) + StW div 2 + 5;
+      end;
+    END;
+
+  end;
+
+var I, N  :Integer;
+    j, jm, jmm : Double;
+begin
+
+ Prv.Visible :=  True;
+ Label5.Visible := false;
+ Button3.Enabled := True;
+ 
+ max := StrToFloat2(eMax.Text);
+ min := StrToFloat2(eMin.Text);
+
+ {if not Relev.Checked then
+ begin
+    if Marx[0].Mark < min then
+      min := Marx[0].Mark;
+
+    if Marx[ListBox1.Count-1].Mark > max then
+      max :=  Marx[ListBox1.Count-1].Mark;  
+
+ end else    }
+  if min - max = 0 then
+  begin
+    Label5.Visible := true;
+    Prv.Hide;
+    Button3.Enabled := False;
+    exit;
+  end;
+
+ Prv.Canvas.Pen.Color := clBlack;
+ Prv.Canvas.Brush.Color := clWhite;
+ Prv.Canvas.FillRect(Rect(0,0, Prv.Width, Prv.Height));
+
+ Prv.Canvas.Rectangle(9,9, Prv.Width-9, 21);
+
+ for I := 10 to Prv.Width - 11 do
+ begin
+    j := (I-10) / (Prv.Width - 20);
+    jm := min + j * (max-min);
+
+    Prv.Canvas.Pen.Color := clBlack;
+    for N := 1 to ListBox1.Items.Count - 1 do
+      if (jm >= Marx[N-1].Mark) and (jm <= Marx[N].Mark) then
+      begin
+        if not SmScale.Checked then
+          Prv.Canvas.Pen.Color := RGB(Marx[N-1].R, Marx[N-1].G, Marx[N-1].B)
+        else
+        begin
+          jmm := (jm - Marx[N-1].Mark)/(Marx[N].Mark - Marx[N-1].Mark);
+          Prv.Canvas.Pen.Color :=
+             RGB(trunc( Marx[N-1].R  + jmm* (Marx[N].R - Marx[N-1].R) ),
+                 trunc( Marx[N-1].G  + jmm* (Marx[N].G - Marx[N-1].G) ),
+                 trunc( Marx[N-1].B  + jmm* (Marx[N].B - Marx[N-1].B) ));
+
+              //   Prv.Canvas.Brush.Color := RGB(Marx[N-1].R, Marx[N-1].G, Marx[N-1].B)
+        end;
+      end;
+
+     N := ListBox1.Items.Count - 1;
+      if (jm > Marx[N].Mark) then
+        Prv.Canvas.Pen.Color := RGB(Marx[N].R, Marx[N].G, Marx[N].B);
+
+    Prv.Canvas.MoveTo(I,10);
+    Prv.Canvas.LineTo(I,20);
+
+    //Prv.Canvas.
+
+ end;
+
+ PutMark(min);
+ PutMark(max);
+
+ for I := 0 to ListBox1.Items.Count-1 do
+    PutMark(Marx[I].Mark);
+
+end;
+
+procedure TFTrackCS.RelevClick(Sender: TObject);
+var I:Integer;
+begin
+ case CPC.ActivePageIndex of
+    0: Preview(Prv1);
+    1: Preview(Prv2);
+ end;
+
+ if Relev.Checked then
+ begin
+  // бнр рср
+ end;
+
+end;
+
+procedure TFTrackCS.SmScaleClick(Sender: TObject);
+begin
+ case CPC.ActivePageIndex of
+    0: Preview(Prv1);
+    1: Preview(Prv2);
+ end;
+  ListBox1.OnClick(nil);
+end;
+
+procedure SortList;
+var I, j, K :Integer;
+  M: TCSMark;
+begin
+  K  := FTrackCS.ListBox1.ItemIndex;
+
+  for I := 0 to FTrackCS.ListBox1.Items.Count - 2 do
+    for j := 0 to FTrackCS.ListBox1.Items.Count - I - 2 do
+        if MarX[j].Mark > Marx[j+1].Mark then
+        begin
+          M := MarX[j];
+          MarX[j] := Marx[j+1];
+          Marx[j+1] := M;
+
+          if J = K then
+             K := J+1
+          else
+          if J+1 = K then
+             K := J;
+        end;
+
+  RefreshList;
+  FTrackCS.ListBox1.ItemIndex := K;
+end;
+
+procedure TFTrackCS.OkMClick(Sender: TObject);
+var j: integer;
+begin
+  j := ListBox1.ItemIndex;
+
+  Marx[j].R := GetRValue(MrkColor.Brush.Color);
+  Marx[j].G := GetGValue(MrkColor.Brush.Color);
+  Marx[j].B := GetBValue(MrkColor.Brush.Color);
+  Marx[j].Mark := MrX.Value;
+
+  SortList;
+
+  j := ListBox1.ItemIndex;
+  RefreshList;
+
+  Preview(Prv2);
+  ListBox1.ItemIndex := j;
+  ResM.Enabled := false;
+  OkM.Enabled := false;
+end;
+
+procedure TFTrackCS.ResMClick(Sender: TObject);
+begin
+  ListBox1.OnClick(nil);
+  Preview(Prv2);
+  ResM.Enabled := false;
+  OkM.Enabled := false;
+end;
+
+procedure TFTrackCS.AddMClick(Sender: TObject);
+
+ procedure AddMark(N:Integer; V:Double);
+ var I :Integer;
+ begin
+   for I := ListBox1.Items.Count - 1 DownTo N do
+      Marx[I+1] := Marx[I];
+ end;
+
+var I, j:Integer;
+begin
+  j := ListBox1.ItemIndex;
+  if j >= 0 then
+  begin
+     AddMark(j,Marx[j].Mark);
+     inc(j);
+  end
+  else
+  begin
+    j := 0;
+    AddMark(j, StrToFloat2(eMin.Text));
+  end;
+
+  ListBox1.Items.Insert(j, (eMin.Text));
+
+  RefreshList;
+  ListBox1.ItemIndex := j;
+  Preview(Prv2);
+ // AddMark()
+end;
+
+end.

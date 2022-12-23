@@ -1,0 +1,31 @@
+unit UMovep;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, StdCtrls, Spin, Buttons;
+
+type
+  TMovep = class(TForm)
+    SpeedButton1: TSpeedButton;
+    SpeedButton3: TSpeedButton;
+    SpeedButton4: TSpeedButton;
+    SpinEdit1: TSpinEdit;
+    Label1: TLabel;
+    SpeedButton2: TSpeedButton;
+    Bevel1: TBevel;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Movep: TMovep;
+
+implementation
+
+{$R *.dfm}
+
+end.

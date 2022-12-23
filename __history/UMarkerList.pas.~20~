@@ -1,0 +1,234 @@
+unit UMarkerList;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, BasicMapObjects, UMarkEd, AsphyreTimer,
+  GeoString, MapFunctions, MapEditor;
+
+type
+  TMarkerList = class(TForm)
+    MainPanel: TPanel;
+    AllMarks: TListBox;
+    LButtonsPanel: TPanel;
+    ViewBtn: TSpeedButton;
+    EdBtn: TSpeedButton;
+    DelBtn: TSpeedButton;
+    ShiftBtn: TSpeedButton;
+    procedure RefreshList;
+    procedure DelBtnClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure EdBtnClick(Sender: TObject);
+    procedure AllMarksClick(Sender: TObject);
+    procedure ViewBtnClick(Sender: TObject);
+    procedure OkButtonClick(Sender: TObject);
+    procedure AllMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure AllMarksKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure ShiftBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MarkerList: TMarkerList;
+
+implementation
+
+uses MapperFm, UMovep;
+
+{$R *.dfm}
+
+{ TMarkerList }
+
+procedure TMarkerList.RefreshList;
+var I, J :Integer;
+begin
+  SetLength(SelectedMarkers,0);
+
+  J :=  AllMarks.ItemIndex;
+  AllMarks.Clear;
+
+ for I := 0 to Length(Markers) - 1 do
+   AllMarks.Items.Add(Markers[I].MarkerName);
+
+ AllMarks.ItemIndex := J;
+
+ if AllMarks.ItemIndex < 0 then
+ begin
+    AllMarks.ItemIndex := 0;
+    SetLength(SelectedMarkers,1);
+    SelectedMarkers[0] := 0;
+ end;
+
+ EdBtn.Enabled  := AllMarks.ItemIndex >=0;
+ DelBtn.Enabled := AllMarks.ItemIndex >=0;
+ ViewBtn.Enabled := AllMarks.ItemIndex >=0;
+ ShiftBtn.Enabled := AllMarks.ItemIndex >=0;
+
+ if AllMarks.Items.Count = 0 then
+    close;
+end;
+
+procedure TMarkerList.ShiftBtnClick(Sender: TObject);
+begin
+  Movep.Show;
+  Movep.Top   := MapFm.Top - (MapFm.ClientHeight - MapFM.Height) + MapFm.Tools.Height - 5;
+  Movep.Left  := MapFm.Left - (MapFm.ClientWidth - MapFM.Width) div 2 + 3;
+end;
+
+procedure TMarkerList.AllMarksKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = vk_Delete then
+    DelBtn.Click;
+
+  if Key = vk_Return then
+  begin
+    ViewBtn.Click;
+    EdBtn.Click;
+  end;
+
+  if Movep.Showing then
+     Movep.Close;
+end;
+
+procedure TMarkerList.AllMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+ AllMarks.SetFocus;
+end;
+
+procedure TMarkerList.DelBtnClick(Sender: TObject);
+var I:Integer;
+begin
+// I := AllMarks.ItemIndex;
+
+// if I = -1 then exit;
+
+ for I := Length(SelectedMarkers) - 1 downto 0 do
+   DelMarker(SelectedMarkers[I]);
+
+ MapFm.SaveCtrlZ;
+
+ if AllMarks.ItemIndex > 0 then
+     AllMarks.ItemIndex := AllMarks.ItemIndex -1;
+
+ RefreshList;
+
+ if Movep.Showing then
+     Movep.Close;
+end;
+
+procedure TMarkerList.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  MapFm.MList.Flat := True;
+  if Movep.Showing then
+     Movep.Close;
+
+  SetLength(SelectedMarkers,0);
+end;
+
+procedure TMarkerList.FormShow(Sender: TObject);
+begin
+   SetLength(SelectedMarkers,0);
+
+ RefreshList;
+end;
+
+procedure TMarkerList.OkButtonClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TMarkerList.EdBtnClick(Sender: TObject);
+var I:Integer;
+begin
+  I := AllMarks.ItemIndex;
+
+  if I =-1 then
+     exit;
+
+  Timer.Enabled := false;
+
+  try
+     MarkEd.PMode := 0;
+     MarkEd.MarkN := I;
+     MarkEd.Edit1.Text := Markers[I].MarkerName;
+     MarkEd.Edit2.Text := DegToDMS(Markers[I].Gx, true, 4);
+     MarkEd.Edit3.Text := DegToDMS(Markers[I].Gy, false, 4);
+     MarkEd.ShowModal;
+  finally
+     Timer.Enabled :=true;
+  end;
+
+  Timer.Enabled := true;
+
+  RefreshList;
+end;
+
+procedure TMarkerList.AllMarksClick(Sender: TObject);
+var I, j:Integer;
+begin
+  case AllMarks.MultiSelect of
+    true: begin
+      EdBtn.Enabled    := AllMarks.SelCount = 1;
+      DelBtn.Enabled   := AllMarks.SelCount > 0;
+      ViewBtn.Enabled  := AllMarks.SelCount > 0;
+      ShiftBtn.Enabled := AllMarks.SelCount > 0;
+    end;
+    false: begin
+      EdBtn.Enabled   := AllMarks.ItemIndex >= 0;
+      DelBtn.Enabled  := AllMarks.ItemIndex >= 0;
+      ViewBtn.Enabled := AllMarks.ItemIndex >= 0;
+      ShiftBtn.Enabled:= AllMarks.ItemIndex >= 0;
+    end;
+  end;
+
+  SetLength(SelectedMarkers, 0);
+  case AllMarks.MultiSelect of
+     false: begin
+        if AllMarks.ItemIndex >= 0 then
+        begin
+            SetLength(SelectedMarkers, 1);
+            SelectedMarkers[0] :=  AllMarks.ItemIndex;
+        end;
+     end;
+
+     true: begin
+        SetLength(SelectedMarkers, AllMarks.SelCount);
+        j := 0;
+        for I := 0 to AllMarks.Items.Count - 1 do
+           if AllMarks.Selected[I] then
+           begin
+             SelectedMarkers[j] :=  I;
+             inc(j);
+           end;
+     end;
+  end;
+
+  if Movep.Showing then
+     Movep.Close;
+end;
+
+procedure TMarkerList.ViewBtnClick(Sender: TObject);
+var I: Integer;
+begin
+  I := AllMarks.ItemIndex;
+
+  if I =-1 then
+     exit;
+
+  Center.x := Markers[I].x;
+  Center.y := Markers[I].y;
+
+  ShiftCenter.x := Center.x;
+  ShiftCenter.y := Center.y;
+end;
+
+end.

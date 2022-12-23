@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021.03.23 15:27:10.427.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotList.pas</Transaction>
+    <Transaction>2021.03.23 15:27:10.427.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotList.dfm</Transaction>
+    <Transaction>2021.03.23 16:41:21.357.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UsaveKnots.pas</Transaction>
+    <Transaction>2021.03.23 16:41:21.357.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UsaveKnots.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

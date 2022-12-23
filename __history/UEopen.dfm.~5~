@@ -1,0 +1,139 @@
+object EOpen: TEOpen
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'EstimOpn'
+  ClientHeight = 176
+  ClientWidth = 451
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Button1: TButton
+    Left = 106
+    Top = 137
+    Width = 239
+    Height = 31
+    Caption = #1054#1090#1082#1088#1099#1090#1100' '#1091#1090#1080#1083#1080#1090#1091' '#1086#1094#1077#1085#1082#1080
+    TabOrder = 0
+    OnClick = Button1Click
+  end
+  object HGTBox: TGroupBox
+    Left = 183
+    Top = 8
+    Width = 260
+    Height = 123
+    Caption = #1042#1099#1076#1077#1088#1078#1080#1074#1072#1085#1080#1077' '#1074#1099#1089#1086#1090' '#1085#1072#1076' '#1079#1077#1084#1085#1086#1081' '#1087#1086#1074#1077#1088#1093#1085#1086#1089#1090#1100#1102
+    TabOrder = 1
+    object HLabelLV: TLabel
+      Left = 58
+      Top = 71
+      Width = 160
+      Height = 16
+      AutoSize = False
+      Caption = #1055#1086' '#1083#1072#1079#1077#1088#1085#1086#1084#1091' '#1074#1099#1089#1086#1090#1086#1084#1077#1088#1091', '#1084':'
+      WordWrap = True
+    end
+    object HLabelRV: TLabel
+      Left = 58
+      Top = 22
+      Width = 160
+      Height = 19
+      AutoSize = False
+      Caption = #1055#1086' '#1088#1072#1076#1080#1086#1074#1099#1089#1086#1090#1086#1084#1077#1088#1091', '#1084':'
+      WordWrap = True
+    end
+    object dotsLabel1: TLabel
+      Left = 120
+      Top = 42
+      Width = 12
+      Height = 13
+      Caption = '...'
+    end
+    object dotsLabel2: TLabel
+      Left = 120
+      Top = 92
+      Width = 12
+      Height = 13
+      Caption = '...'
+    end
+    object MaxHgtL: TSpinEdit
+      Left = 138
+      Top = 86
+      Width = 68
+      Height = 22
+      Increment = 5
+      MaxValue = 1000
+      MinValue = 5
+      TabOrder = 0
+      Value = 50
+    end
+    object MinHgtL: TSpinEdit
+      Left = 56
+      Top = 86
+      Width = 58
+      Height = 22
+      Increment = 5
+      MaxValue = 995
+      MinValue = 5
+      TabOrder = 1
+      Value = 10
+    end
+    object MinHgtR: TSpinEdit
+      Left = 56
+      Top = 38
+      Width = 58
+      Height = 22
+      Increment = 5
+      MaxValue = 995
+      MinValue = 5
+      TabOrder = 2
+      Value = 70
+    end
+    object MaxHgtR: TSpinEdit
+      Left = 138
+      Top = 38
+      Width = 68
+      Height = 22
+      Increment = 5
+      MaxValue = 1000
+      MinValue = 5
+      TabOrder = 3
+      Value = 120
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 8
+    Top = 8
+    Width = 169
+    Height = 123
+    Caption = #1042#1099#1076#1077#1088#1078#1080#1074#1072#1085#1080#1077' '#1084#1072#1088#1096#1088#1091#1090#1086#1074
+    TabOrder = 2
+    object Label1: TLabel
+      Left = 26
+      Top = 37
+      Width = 127
+      Height = 50
+      AutoSize = False
+      Caption = #1055#1088#1077#1076#1077#1083' '#1091#1082#1083#1086#1085#1077#1085#1080#1081' '#1086#1090' '#1084#1072#1088#1096#1088#1091#1090#1072', '#1084':'
+      WordWrap = True
+    end
+    object MaxXTE: TSpinEdit
+      Left = 26
+      Top = 75
+      Width = 68
+      Height = 22
+      Increment = 5
+      MaxValue = 1000
+      MinValue = 5
+      TabOrder = 0
+      Value = 50
+    end
+  end
+end

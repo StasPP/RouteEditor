@@ -1,0 +1,78 @@
+unit UGroupKnotRenum;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, ComCtrls, ExtCtrls, MapEditor, LangLoader;
+
+type
+  TFknotgrouprenum = class(TForm)
+    Button1: TButton;
+    Button2: TButton;
+    KindA: TComboBox;
+    Label1: TLabel;
+    isAllK: TRadioGroup;
+    GroupBox1: TGroupBox;
+    RPC: TPageControl;
+    TabSheet1: TTabSheet;
+    Label2: TLabel;
+    AddL1: TSpinEdit;
+    TabSheet2: TTabSheet;
+    Label3: TLabel;
+    AddL2: TSpinEdit;
+    doSortK: TRadioGroup;
+    StepL: TSpinEdit;
+    Label4: TLabel;
+    procedure KindAChange(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Fknotgrouprenum: TFknotgrouprenum;
+
+implementation
+
+uses MapperFm;
+
+{$R *.dfm}
+
+procedure TFknotgrouprenum.Button1Click(Sender: TObject);
+begin
+  MapFm.SaveCtrlZ;
+  case KindA.ItemIndex of
+     0:  RenumberKnots(KindA.ItemIndex, isAllK.ItemIndex = 1,
+           AddL1.Value, 1, False);
+     1:  RenumberKnots(KindA.ItemIndex, isAllK.ItemIndex = 1,
+           AddL2.Value, StepL.Value, DoSortK.ItemIndex = 1);
+  end;  
+  close;
+end;
+
+procedure TFknotgrouprenum.Button2Click(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TFknotgrouprenum.FormShow(Sender: TObject);
+var I :Integer;
+begin
+  I := KindA.ItemIndex;
+  KindA.Items[0] := Inf[207];
+  KindA.Items[1] := Inf[208];
+  KindA.ItemIndex := I;
+  RPC.ActivePageIndex := KindA.ItemIndex;
+end;
+
+procedure TFknotgrouprenum.KindAChange(Sender: TObject);
+begin
+  RPC.ActivePageIndex := KindA.ItemIndex;
+end;
+
+end.

@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{f2cd94f9-bc06-48be-8730-7e0750039d99}</ProjectGuid>
+    <MainSource>RouteEditor.dpr</MainSource>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>RouteEditor.exe</DCC_DependencyCheckOutputName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_UnitSearchPath>GeoToolsUnits;Units\GraphicEx;Units\OldAsph;Units\OldAsph\Common</DCC_UnitSearchPath>
+    <DCC_ResourcePath>GeoToolsUnits;Units\GraphicEx;Units\OldAsph;Units\OldAsph\Common</DCC_ResourcePath>
+    <DCC_ObjPath>GeoToolsUnits;Units\GraphicEx;Units\OldAsph;Units\OldAsph\Common</DCC_ObjPath>
+    <DCC_IncludePath>GeoToolsUnits;Units\GraphicEx;Units\OldAsph;Units\OldAsph\Common</DCC_IncludePath>
+    <DCC_Define>RELEASE</DCC_Define>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_UnitSearchPath>GeoToolsUnits;Data\OpenSSl\32;Data\OpenSSL\64;Units\GraphicEx;Units\;Units\Source;Units\Asphyre;Units\Asphyre\Source;Units\Asphyre\Extras\Extensions;Units\Asphyre\Extras\Extensions\LibTiff;Units\Asphyre\Source\ZLib;Units\Asphyre\Source\JpegLib</DCC_UnitSearchPath>
+    <DCC_ResourcePath>GeoToolsUnits;Data\OpenSSl\32;Data\OpenSSL\64;Units\GraphicEx;Units\;Units\Source;Units\Asphyre;Units\Asphyre\Source;Units\Asphyre\Extras\Extensions;Units\Asphyre\Extras\Extensions\LibTiff;Units\Asphyre\Source\ZLib;Units\Asphyre\Source\JpegLib</DCC_ResourcePath>
+    <DCC_ObjPath>GeoToolsUnits;Data\OpenSSl\32;Data\OpenSSL\64;Units\GraphicEx;Units\;Units\Source;Units\Asphyre;Units\Asphyre\Source;Units\Asphyre\Extras\Extensions;Units\Asphyre\Extras\Extensions\LibTiff;Units\Asphyre\Source\ZLib;Units\Asphyre\Source\JpegLib</DCC_ObjPath>
+    <DCC_IncludePath>GeoToolsUnits;Data\OpenSSl\32;Data\OpenSSL\64;Units\GraphicEx;Units\;Units\Source;Units\Asphyre;Units\Asphyre\Source;Units\Asphyre\Extras\Extensions;Units\Asphyre\Extras\Extensions\LibTiff;Units\Asphyre\Source\ZLib;Units\Asphyre\Source\JpegLib</DCC_IncludePath>
+    <DCC_Define>DEBUG</DCC_Define>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">True</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">5</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1049</VersionInfo><VersionInfo Name="CodePage">1251</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName">Aerogeophysical Surveys CJSC</VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.5.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName">RouteEditor</VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.5</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Source><Source Name="MainSource">RouteEditor.dpr</Source></Source></Delphi.Personality><ModelSupport>True</ModelSupport></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="RouteEditor.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="BasicMapObjects.pas" />
+    <DCCReference Include="CoordSysFm.pas">
+      <Form>CSForm</Form>
+    </DCCReference>
+    <DCCReference Include="DrawFunctions.pas" />
+    <DCCReference Include="FLoader.pas">
+      <Form>FLoadGPS</Form>
+    </DCCReference>
+    <DCCReference Include="GeoCalcUnit.pas">
+      <Form>GeoCalcFm</Form>
+    </DCCReference>
+    <DCCReference Include="GeoToolsUnits\GeoTime.pas" />
+    <DCCReference Include="HintFm.pas">
+      <Form>HintForm</Form>
+    </DCCReference>
+    <DCCReference Include="HUD1.pas" />
+    <DCCReference Include="Imitator.pas" />
+    <DCCReference Include="LangLoader.pas" />
+    <DCCReference Include="LoadData.pas">
+      <Form>LoadRData</Form>
+    </DCCReference>
+    <DCCReference Include="LoadTrack.pas">
+      <Form>LoadT</Form>
+    </DCCReference>
+    <DCCReference Include="MapEditor.pas" />
+    <DCCReference Include="MapFunctions.pas" />
+    <DCCReference Include="MapperFm.pas">
+      <Form>MapFm</Form>
+    </DCCReference>
+    <DCCReference Include="ParUnit1.pas">
+      <Form>RedForm</Form>
+    </DCCReference>
+    <DCCReference Include="PointClasses.pas" />
+    <DCCReference Include="SaveTXT.pas">
+      <Form>SaveTXTFm</Form>
+    </DCCReference>
+    <DCCReference Include="TabFunctions.pas" />
+    <DCCReference Include="TrackFunctions.pas" />
+    <DCCReference Include="UCalendar.pas">
+      <Form>FCalendar</Form>
+    </DCCReference>
+    <DCCReference Include="UClone.pas">
+      <Form>CloneFm</Form>
+    </DCCReference>
+    <DCCReference Include="UCollapseFm.pas">
+      <Form>CollapseFm</Form>
+    </DCCReference>
+    <DCCReference Include="UDevStar.pas">
+      <Form>DevStarFm</Form>
+    </DCCReference>
+    <DCCReference Include="UEdTools.pas">
+      <Form>Edtools</Form>
+    </DCCReference>
+    <DCCReference Include="UEdWin.pas">
+      <Form>EdWin</Form>
+    </DCCReference>
+    <DCCReference Include="UEopen.pas">
+      <Form>EOpen</Form>
+    </DCCReference>
+    <DCCReference Include="UExportKnots.pas">
+      <Form>FExportKnots</Form>
+    </DCCReference>
+    <DCCReference Include="UGetMapPos.pas">
+      <Form>GetMapPos</Form>
+    </DCCReference>
+    <DCCReference Include="UGroupKnotRenum.pas">
+      <Form>Fknotgrouprenum</Form>
+    </DCCReference>
+    <DCCReference Include="UHgtGraphsW.pas">
+      <Form>HgtGraphs</Form>
+    </DCCReference>
+    <DCCReference Include="UKnotList.pas">
+      <Form>FKnotList</Form>
+    </DCCReference>
+    <DCCReference Include="UKnotPickets.pas">
+      <Form>FKnotPickets</Form>
+    </DCCReference>
+    <DCCReference Include="ULoadA.pas">
+      <Form>LoadA</Form>
+    </DCCReference>
+    <DCCReference Include="ULoadBLNData.pas">
+      <Form>LoadBlnData</Form>
+    </DCCReference>
+    <DCCReference Include="UMarkEd.pas">
+      <Form>MarkEd</Form>
+    </DCCReference>
+    <DCCReference Include="UMarkerList.pas">
+      <Form>MarkerList</Form>
+    </DCCReference>
+    <DCCReference Include="UMarkerOps.pas">
+      <Form>MarkerOps</Form>
+    </DCCReference>
+    <DCCReference Include="UMarkH.pas">
+      <Form>MarkH</Form>
+    </DCCReference>
+    <DCCReference Include="UMovep.pas">
+      <Form>Movep</Form>
+    </DCCReference>
+    <DCCReference Include="UNamer.pas">
+      <Form>Namer</Form>
+    </DCCReference>
+    <DCCReference Include="UOpenKML.pas">
+      <Form>KmlOpn</Form>
+    </DCCReference>
+    <DCCReference Include="UOpenUdf.pas">
+      <Form>FOpenUdf</Form>
+    </DCCReference>
+    <DCCReference Include="UOrderW.pas">
+      <Form>OrderW</Form>
+    </DCCReference>
+    <DCCReference Include="UReduseTr.pas">
+      <Form>FreduceTrack</Form>
+    </DCCReference>
+    <DCCReference Include="URegions.pas" />
+    <DCCReference Include="URList.pas">
+      <Form>FRList</Form>
+    </DCCReference>
+    <DCCReference Include="URNewOps.pas">
+      <Form>RouteOps</Form>
+    </DCCReference>
+    <DCCReference Include="UROps.pas">
+      <Form>FRops</Form>
+    </DCCReference>
+    <DCCReference Include="UsaveKnots.pas">
+      <Form>FSaveKnots</Form>
+    </DCCReference>
+    <DCCReference Include="USaveTrack.pas">
+      <Form>TrackSaver</Form>
+    </DCCReference>
+    <DCCReference Include="USets.pas">
+      <Form>SetFm</Form>
+    </DCCReference>
+    <DCCReference Include="UStatBox.pas">
+      <Form>StatBox</Form>
+    </DCCReference>
+    <DCCReference Include="UTrackCS.pas">
+      <Form>FTrackCS</Form>
+    </DCCReference>
+    <DCCReference Include="YandexMap.pas" />
+    <None Include="ModelSupport_RouteEditor\default.txaPackage" />
+    <None Include="ModelSupport_RouteEditor\default.txvpck" />
+  </ItemGroup>
+</Project>

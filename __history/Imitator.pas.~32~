@@ -1,0 +1,943 @@
+unit Imitator;
+
+interface
+
+uses MapFunctions, GeoFunctions, TabFunctions, Vectors2, RTypes, BasicMapObjects,
+     AbstractCanvas, AbstractDevices, AsphyreImages, AsphyreTypes, AsphyreDb,
+     Classes, FLoader, SysUtils, GeoClasses, GeoString, Dialogs, DrawFunctions,
+     Math, DubinsPath;
+
+procedure Imitate(Step, Rad, Noise : Integer; DoSwitch : Boolean);
+procedure DrawImitGPS(AsphCanvas: TAsphyreCanvas; Color, Color2:Cardinal;
+    Smooth: Boolean; AnimPos: Double);
+
+procedure SaveImitGPS(F: String);
+
+var
+    GPS: Array of TMyPoint;
+    
+
+implementation
+
+var MaxNoise, GPSCount : Integer;
+    CurrentNoise, WaitNoise, NSI, xi, yi, ai, xj, yj, aj : Double;
+    MyRoute :Troute;
+
+const
+    MaxGPS = 1000000;
+    NoiseStep = 0.1;
+
+function Noise:real;
+begin
+
+  if CurrentNoise < WaitNoise then
+  begin
+    if Abs(CurrentNoise - WaitNoise) > NoiseStep*NSI then
+       CurrentNoise := CurrentNoise + NoiseStep*NSI
+     else
+       begin
+         NSI := (1 + random(100))/10;     CurrentNoise := WaitNoise;
+         WaitNoise := random(MaxNoise)*2 - MaxNoise;
+       end;
+
+  end
+    else
+      begin
+         if Abs(CurrentNoise - WaitNoise) > NoiseStep*NSI then
+            CurrentNoise := CurrentNoise - NoiseStep*NSI
+         else
+         begin
+           CurrentNoise := WaitNoise;
+           NSI := (1 + random(100))/10;
+           WaitNoise := random(MaxNoise)*2 - MaxNoise;
+         end;
+      end;
+  result := CurrentNoise;
+end;
+
+procedure RouteGPS(Step : Double;
+      ShiftL: Double; DoContinue:Boolean);
+var
+  I, SegN :Integer;
+  CStep, SegL, SegA :Double;
+  CurL, FullL       :Double;
+  X1, Y1, X2, Y2    :Double;
+  NewX, NewY, c     :Double;
+  DopL :Double;
+
+  procedure AddPoint(x, y :Double; N :Integer);
+  var J: Integer;
+  begin
+    if GPSCount < MaxGPS then
+      inc(GPSCount);
+
+	    J := GPSCount - 1;
+
+      GPS[J].x := x + Noise*Sin(SegA+ pi/2);
+      GPS[J].y := y + Noise*Cos(SegA+ pi/2);
+
+      xi :=  GPS[J].x;
+      yi :=  GPS[J].y;
+      ai := SegA;
+  end;
+
+  procedure GetSegL;
+  begin
+     SegL := sqrt( Sqr(X2 - X1) + Sqr(Y2 - Y1));
+  end;
+
+  procedure NextSeg;
+  var cont:boolean;
+  begin
+    cont := false;
+    case DoContinue of
+      false : inc(SegN);
+      true  : if SegN < Length(MyRoute.WPT) - 1  then
+                 inc(SegN)
+                   else
+                    cont := true;
+    end;
+
+    if SegN > Length(MyRoute.WPT) - 1  then
+      SegL := -1
+      else
+        begin
+           X1 := MyRoute.WPT[SegN-1].x;
+           Y1 := MyRoute.WPT[SegN-1].y;
+           X2 := MyRoute.WPT[SegN].x;
+           Y2 := MyRoute.WPT[SegN].y;
+
+           GetSegL;
+           SegA := 0;
+
+           if SegL > 0 then
+             SegA := arcTan2(X2 - X1, Y2 - Y1);
+
+           if cont then
+           begin
+             X1 := X2;
+             Y1 := Y2;
+             X2 := X2 + DopL*(X2 - MyRoute.WPT[SegN-1].x)/SegL;
+             Y2 := Y2 + DopL*(Y2 - MyRoute.WPT[SegN-1].y)/SegL;
+             FullL := FullL + DopL;
+             DopL := 0;
+             cont := false;
+             DoContinue := false;
+             GetSegL;
+           end;
+        end;
+  end;
+
+  procedure GetFullL;
+  var J :integer;
+  begin
+     FullL := 0;
+     for J := 1 to Length(MyRoute.WPT) - 1 do
+     begin
+       FullL := FullL + sqrt(
+                Sqr(MyRoute.WPT[J].x - MyRoute.WPT[J-1].x) +
+                Sqr(MyRoute.WPT[J].y - MyRoute.WPT[J-1].y));
+     end;
+  end;
+
+var N: Integer;
+var StepI:Double;
+begin
+
+
+  if GPSCount >= MaxGPS then
+     exit;
+
+  if Length(MyRoute.WPT)<= 1 then
+    exit;
+
+  GetFullL;
+
+  N := 0;
+  CurL  := 0;   CStep := 0;    SegL  := 0;   SegN  := 0;  DopL := 0;
+
+  if DoContinue then
+    DopL := Step;
+  repeat
+     StepI := Step;
+	   
+     CurL  := CurL  + StepI;
+     cStep := cStep + StepI;
+
+     while (SegL <= cStep) or (SegL = 0) do
+     begin
+       cStep := cStep - SegL;
+       NextSeg;
+       if SegL < 0 then
+          break;
+     end;
+
+     if SegL < 0 then
+        break;
+
+     c := cStep / SegL;
+     NewX := X1 + c*(X2 - X1);
+     NewY := Y1 + c*(Y2 - Y1);
+
+     inc(N);
+     AddPoint(NewX, NewY, N);
+
+     X1 := NewX;  Y1 := NewY;
+     GetSegL;
+     cStep := 0;
+
+     if GPSCount >= MaxGPS then
+         break;
+		 
+  until CurL > FullL+DopL;
+
+end;
+
+procedure DubinsGPS(Step : Double;
+      ShiftL: Double; DoContinue:Boolean);
+var TmpRoute:TRoute;
+begin
+  TmpRoute := MyRoute;
+  SetLength(MyRoute.WPT, Length(TPCount)); xzcx
+
+  RouteGPS(Step, ShiftL, false);
+end;
+
+procedure Imitate(Step, Rad, Noise : Integer; DoSwitch : Boolean);
+
+var BackStep :boolean;
+    ReadyPoints : Array of Boolean;
+
+  function NextRoute(CurrentRoute, RouteCount, Step:Integer; RoundFly: boolean):integer;
+  var i, j, k : integer;
+      Done : boolean;
+  begin
+   NextRoute := -1;
+   I := CurrentRoute;
+   Done := false;
+
+   if (RoundFly) then
+   BEGIN
+
+    for k := 0 to 1 do
+    Begin
+
+      if BackStep = false then
+      Begin
+        if I+step <= RouteCount then
+        begin
+          If  ReadyPoints[(I+step)] = false then
+          Begin
+            NextRoute := I+step;
+            Done := true;
+            BackStep := true;
+            break;
+          End
+      end
+     End else
+      if I-step+1 >= 0 then
+      begin
+        If  ReadyPoints[(I+1-step)] = false   then
+          Begin
+            NextRoute := I+1-step;
+            Done := true;
+            BackStep := false;
+            break;
+          End
+       end;
+
+       if not Done then
+         BackStep := not BackStep;
+
+     End;
+
+     END;
+
+     if not(RoundFly) or (Done= false) then
+     BEGIN
+       for step := step Downto 1 do
+       Begin
+         if I+step <= RouteCount - 1 then
+         if ReadyPoints[(I+step)] = false then
+         Begin
+            NextRoute := I+step;
+            Done := true;
+            break
+         End;
+
+         if I-step >= 0  then
+         if ReadyPoints[(I-step)] = false then
+         Begin
+            NextRoute := I-step;
+            Done := true;
+            break
+         End;
+       End;
+
+       if Done = false then
+         for j := 0 to RouteCount-1 do
+         begin
+           if I+j <= RouteCount then
+           If  ReadyPoints[(I+j)] = false then
+           Begin
+             NextRoute := I+j;
+             Done := true;
+             break
+           End;
+
+         if I-j >= 0  then
+           If ReadyPoints[(I-j)] = false  then
+           Begin
+             NextRoute := I-j;
+             Done := true;
+             break
+           End;
+        end;
+
+     END;
+
+  end;
+
+  function GetC(xb, yb, xe, ye, x, y: double): Double;
+  var x1, y1, x2, y2, _x, _y, t, c, _y0: Double;
+  begin
+     Result := -1;
+     try
+       x1 := xb;
+       x2 := xe;
+       y1 := yb;
+       y2 := ye;
+       if x1=x2 then
+       begin
+         _y := y;
+         _x := x1;
+          c := (_y - y1) / (y2 - y1);
+       end
+        else
+       if y1=y2 then
+       begin
+         _y := y1;
+         _x := x;
+         c := (_x - x1) / (x2 - x1);
+       end
+         else
+       if abs(x2-x1)>abs(y2-y1) then
+       Begin
+         t :=  (y2-y1)/(x2-x1);
+         c := 1/t;
+
+         _y0 := c*(x-x1) + (y-y1);
+
+         _x := x1 + (  _y0/(t+c) );
+         _y := y1 + ( t*(_x-x1) );
+
+          c := (_x - x1) / (x2 - x1);
+       End
+        else
+          Begin
+            t := (x2-x1)/(y2-y1);
+            c := 1/t;
+
+            _y0 := (x-x1) + c*(y-y1);        /// Here _y0 as _x0
+
+            _y := y1 + (  _y0/(t+c) );
+            _x := x1 + ( t*(_y-y1) );
+
+            c := (_y - y1) / (y2 - y1);
+          End;
+
+       Result := c;
+
+    except
+      Result := -1;
+    end;
+
+  end;
+
+  procedure CheckBegin;
+  var l1, l2:Double; i :integer;
+  begin
+      l1 := abs(xi - MyRoute.WPT[0].x) + abs(yi - MyRoute.WPT[0].y);
+      l2 := abs(xi - MyRoute.WPT[Length(MyRoute.WPT) - 1].x)
+          + abs(yi - MyRoute.WPT[Length(MyRoute.WPT) - 1].y);
+
+      if (l1 > l2) and not MyRoute.Fixed then
+         for I := 0 to trunc((Length(MyRoute.WPT) - 1)/2) do
+         Begin
+            xj := MyRoute.WPT[Length(MyRoute.WPT) - 1 - I].x;
+            yj := MyRoute.WPT[Length(MyRoute.WPT) - 1 - I].y;
+            MyRoute.WPT[Length(MyRoute.WPT) - 1 - I] :=  MyRoute.WPT[I];
+            MyRoute.WPT[I].x := xj;
+            MyRoute.WPT[I].y := yj;
+         End;
+
+      xj := MyRoute.WPT[0].x;
+      yj := MyRoute.WPT[0].y;
+
+      aj := ai;
+
+      if Length(MyRoute.WPT)>1 then
+      aj := arctan2(MyRoute.WPT[1].x - MyRoute.WPT[0].x,
+                    MyRoute.WPT[1].y - MyRoute.WPT[0].y);
+  end;
+
+var i, j, n, Bani, RouteN, NextN: integer;
+    {
+    _x, _y, x2, y2, x0, y0,
+    aimX, aimY, wa, rr, a1,
+    da, a, crx, cry, uklon,
+    u0, _x0,_y0 : double;
+
+    minrr : integer;
+    arcsize, b1, b2: double;
+    darc, dal,  dL : double;
+
+    shx, shy, sxy, dshxy : double; PD :TPosandDist;
+
+    FromBegin, isGoToNext, isRight, ClockWise : Boolean;}
+
+begin
+
+   if RouteCount = 0 then
+      exit;
+
+   SetLength(ReadyPoints, RouteCount-1);
+
+
+   for i:= 0 to RouteCount - 1 do
+     ReadyPoints[i] := false;
+
+   GPSCount := 0;
+   SetLength(GPS, MaxGPS-1);
+   RouteN := 0;
+   CurrentNoise := random(Noise);  MaxNoise := Noise;
+
+   MyRoute := Route[RouteN];
+   RouteGPS(20, 0, false);
+
+   while RouteN <> - 1 do
+   begin
+      ReadyPoints[RouteN] := true;
+      RouteN := NextRoute(RouteN, RouteCount-1, Step, DoSwitch);
+
+      MyRoute := Route[RouteN];
+      CheckBegin;
+      Dubins(xi, yi, ai, xj, yj, aj, Rad);
+      DubinsGPS(20, 0, false);
+
+      MyRoute := Route[RouteN];
+      CheckBegin;
+      RouteGPS(20, 0, false);
+   end;
+
+
+   SetLength(GPS, GPSCount);
+
+
+(*   for I := 0 to RouteCount - 1 do
+   Begin
+    Points[I*2].x   := Route[I].x1;
+    Points[I*2].y   := Route[I].y1;
+    Points[I*2+1].x := Route[I].x2;
+    Points[I*2+1].y := Route[I].y2;
+   End;
+
+  SetLength(ReadyPoints,Length(Points));
+  SetLength(GPS,0);
+
+  minrr := Rad;
+
+  for i:= 0 to Length(Points) - 1 do
+    ReadyPoints[i] := false;
+
+  try
+
+    _x := Points[0].X;
+    _y := Points[0].Y;
+
+    u0 := 0;
+    uklon := 0;
+
+    x0 := _x;
+    y0 := _y;
+
+    aimX :=  Points[1].X;
+    aimY :=  Points[1].Y;
+
+    RouteN :=0;
+
+    wa := arctan2((aimX-_X),(aimY-_y));
+    if wa < 0 then
+       wa := wa + 2*pi;
+
+    BackStep := false;
+    FromBegin := true;
+    isGotoNext := false;
+
+    ClockWise := (wa > pi/2)and(wa < 3*pi/2);
+
+    i:=0;
+    repeat
+
+       _x := _x + spd*sin(wa);
+       _y := _y + spd*cos(wa);
+
+         if GetC(x0,y0,aimX,aimY,_x,_y)>1.1 then
+         Begin
+            ReadyPoints[RouteN*2] := true;
+            ReadyPoints[RouteN*2+1] := true;
+
+            RouteN := NextRoute(RouteN,(length(Points)-1)div 2, Step, DoSwitch);
+            if RouteN = -1 then
+              break;
+
+            if (Route[RouteN].x1 = Route[RouteN].x2) and
+               (Route[RouteN].y1 = Route[RouteN].y2) then
+                   break;
+
+            if FromBegin then
+            begin
+            
+              b2 := aimy - 1/tan(wa)*aimx ;
+
+              _x0 := x0;
+              _y0 := y0;
+              x0 := Points[(RouteN*2)+1].X;
+              y0 := Points[(RouteN*2)+1].Y;
+
+              b1 :=  y0 - 1/tan(wa)*x0;
+
+              rr := abs( (b2 - b1)*sin(wa))/2;
+
+              darc :=0;
+
+              isRight := (arctan2((aimx - x0),( aimy - y0))<0 ) or (arctan2((aimx - x0),( aimy - y0))> pi );
+
+
+              PD := GetPosAndDist(Points[(RouteN*2)].X, Points[(RouteN*2)].Y, Points[(RouteN*2)+1].X, Points[(RouteN*2)+1].y, _x, _y);
+
+              crx := (_x + PD.x)/2 ;
+              cry := (_y + PD.y)/2 ;
+            
+              shx :=0;
+              shy :=0;
+                        // zx
+              if PD.Pos < 1 then
+              Begin
+
+                 shx := PD.x - Points[(RouteN*2)+1].X;
+                 shy := PD.y - Points[(RouteN*2)+1].y;
+                 crx :=  crx - shx;
+                 cry :=  cry - shy ;
+
+                 sxy := sqrt(sqr(shx)+sqr(shy))/spd;
+
+                 for J := 1 to trunc(sxy) do
+                 Begin
+                   inc(i);
+                   SetLength(GPS,I);
+                    _x := _x + spd*sin(wa);
+                    _y := _y + spd*cos(wa);
+                    GPS[i-1].X := _x;
+                    GPS[i-1].Y := _y;
+                 End;
+
+              End;
+
+              if rr < minrr then
+              begin
+
+                dal := arcsin(RR/MinRR);
+                dL :=  minRR*Cos(dal);
+                darc := (pi/2 - (dal));
+
+                rr := minRR;
+
+                crx := (_x + PD.x)/2 + dl*sin(wa) - shx;
+                cry := (_y + PD.y)/2 + dl*cos(wa) - shy;
+
+              end;
+
+              da := pi/ ((pi*rr)/spd);
+
+              if (isRight)and(ClockWise)or(not ClockWise)and(not isRight) then
+              begin
+                a := -wa + pi/2 - darc  - da;
+                a1 := (-wa + pi/2 {- da}) + pi + darc  ;//+ da ;
+              end
+               else
+               begin
+                    a := (- wa - pi/2 ) + darc + da;
+                    a1 := (- wa - pi/2 {+ da}) - pi - darc ;//- da;
+               end;
+
+
+              if a > a1 then
+              begin
+                while a > a1 do
+                begin
+                  inc(i);
+                  SetLength(GPS,I);
+
+                  a := a - da;
+                  if a < a1 then
+                     a:= a1;
+
+                  _x := crx + sin(a)*rr;
+                  _y := cry - cos(a)*rr;
+
+                  GPS[i-1].X := _x;
+                  GPS[i-1].Y := _y;
+
+                end;
+              end
+                else
+                  while a < a1 do
+                begin
+                  inc(i);
+                  SetLength(GPS,I);
+
+                  a := a + da;
+                  if a>a1 then
+                     a:= a1;
+
+                  _x := crx + sin(a)*rr;
+                  _y := cry - cos(a)*rr;
+
+                  GPS[i-1].X := _x;
+                  GPS[i-1].Y := _y;
+
+                end;
+
+              aimX :=  Points[(RouteN*2)].X;
+              aimY :=  Points[(RouteN*2)].Y;
+
+           //  _x := x0;
+           //  _y := y0;
+
+              wa := arctan2((aimX-X0),(aimY-y0));
+            end
+              else
+              Begin
+                b2 := 1/tan(wa)*x0 - y0 ;
+
+                x0 := Points[(RouteN*2)].X;
+                y0 := Points[(RouteN*2)].Y;
+
+                b1 := 1/tan(wa)*x0 - y0 ;
+               // b2 := tan(wa)*aimx - aimy ;
+
+                rr := abs( (b2 - b1)*sin(wa))/2;
+
+                // rr := Sqrt(sqr(aimx - x0) + sqr( aimy - y0))/2;
+
+              isRight := (arctan2((aimx - x0),( aimy - y0))<0 ) or (arctan2((aimx - x0),( aimy - y0))> pi );
+
+              PD := GetPosAndDist(Points[(RouteN*2)].X, Points[(RouteN*2)].Y, Points[(RouteN*2)+1].X, Points[(RouteN*2)+1].y, _x, _y);
+
+              crx := (_x + PD.x)/2 ;
+              cry := (_y + PD.y)/2 ;
+
+              shx :=0;
+              shy :=0;
+             
+              if PD.Pos > 0 then
+              Begin
+
+                 shx := PD.x - Points[(RouteN*2)].X;
+                 shy := PD.y - Points[(RouteN*2)].y;
+                 crx :=  crx - shx;
+                 cry :=  cry - shy;
+
+                 sxy := sqrt(sqr(shx)+sqr(shy))/spd;
+
+                 for J := 1 to trunc(sxy) do
+                 Begin
+                   inc(i);
+                   SetLength(GPS,I);
+                    _x := _x + spd*sin(wa);
+                    _y := _y + spd*cos(wa);
+                    GPS[i-1].X := _x;
+                    GPS[i-1].Y := _y;
+                 End;   
+
+                   
+                // showmessage(IntToStr(round(100*GetC(Points[(RouteN*2)].X, Points[(RouteN*2)].Y, Points[(RouteN*2)+1].X, Points[(RouteN*2)+1].y, crx, cry))));
+              End;
+
+
+              darc :=0;
+
+              if rr < minrr then
+              begin
+                //////////////////////////////////////////////////////////////////////////////
+
+                dal := arcsin(RR/MinRR);
+                dL :=  minRR*Cos(dal);
+                darc := (pi/2 - (dal));
+
+                rr := minRR;
+
+                crx := (_x + PD.x)/2  + dl*sin(wa)- shx;
+                cry := (_y + PD.y)/2 + dl*cos(wa)- shy;
+
+
+              end;
+
+              da := pi/ ((pi*rr)/spd);
+
+              if (isRight)and(not ClockWise)or (ClockWise)and(not isRight) then
+              begin
+                 a :=  wa + pi/2 + da + darc;
+                 a1 := (wa + pi/2) - pi - darc;
+               end
+               else
+               begin
+                    a := wa - pi/2 - da - darc;
+                    a1 := (wa - pi/2) + pi + darc;
+               end;
+
+              if a > a1 then
+              begin
+                while a > a1 do
+                begin
+                  inc(i);
+                  SetLength(GPS,I);
+
+                  a := a - da;
+
+                  if a<a1 then
+                     a:= a1;
+
+                  _x := crx + sin(a)*rr;
+                  _y := cry + cos(a)*rr;
+
+                  GPS[i-1].X := _x;
+                  GPS[i-1].Y := _y;
+                end;
+              end
+                else
+                  while a < a1 do
+                begin
+                  inc(i);
+                  SetLength(GPS,I);
+
+                  a := a + da;
+                  if a>a1 then
+                     a:= a1;
+
+                  _x := crx + sin(a)*rr;
+                  _y := cry + cos(a)*rr;
+
+                  GPS[i-1].X := _x;
+                  GPS[i-1].Y := _y;
+                end;     
+
+                aimX :=  Points[(RouteN*2)+1].X;
+                aimY :=  Points[(RouteN*2)+1].Y;
+                wa := arctan2((aimX-X0),(aimY-y0));
+                //_x := x0;
+                //_y := y0;
+              End;
+
+             FromBegin  := not FromBegin;
+
+             _x := _x + spd*sin(wa);
+             _y := _y + spd*cos(wa);
+         End;
+
+
+       if abs(u0-uklon) > 0.5 then
+         begin
+           if uklon < u0 then
+             UKLON := uklon +0.2
+               else
+                  UKLON := uklon -0.2
+         end
+          else
+             u0 := (random - 0.5)*Noise;
+
+       if Noise = 0 then
+          uklon := 0;
+
+
+       x2 := _x + uklon*sin(wa+pi/2);
+       y2 := _y + uklon*cos(wa+pi/2);
+
+      inc(i);
+      SetLength(GPS,I);
+      GPS[i-1].X := x2;
+      GPS[i-1].Y := y2;      
+
+    until (i>=1000000)or(RouteN=-1);   
+
+  finally
+  end;        *)
+end;
+
+procedure DrawImitGPS(AsphCanvas: TAsphyreCanvas; Color, Color2:Cardinal;
+    Smooth: Boolean; AnimPos: Double);
+var I, J :Integer;
+    P1, P2, P3, P4 : TMyPoint;
+begin
+  I := 0;
+  J := 0;
+  While I < Length(GPS)-1 Do
+  Begin
+     I := I+J;
+     J := 0;
+
+     P1 := MapToScreen(GPS[i].X, GPS[i].Y);            //// OPTIMIZED OUTPUT
+     repeat
+        Inc(J);
+        P2 := MapToScreen(GPS[i+j].X, GPS[i+j].Y)
+     until (abs(P1.X-P2.X)>5) or (abs(P1.Y-P2.Y)>5) or (I+J >= Length(GPS) - 1);
+
+     if I+J <= Length(GPS) - 1 then
+     Begin
+       //// LINES
+       FatLine(AsphCanvas, P1.x, P1.y, P2.x, P2.y, 1, false, Smooth, Color);
+
+       //// ANIMATION
+       if AnimPos > 0 then
+       Begin
+         if AnimPos <= 50 then
+         Begin
+            P3.x := P1.x - (P1.x - P2.x)*AnimPos/100;
+            P3.y := P1.y - (P1.y - P2.y)*AnimPos/100;
+            FatLine(AsphCanvas, P1.x, P1.y, P3.x, P3.y, 1, false, Smooth, Color2);
+
+            P3.x := P2.x - (P2.x - P1.x)*(50-AnimPos)/100;
+            P3.y := P2.y - (P2.y - P1.y)*(50-AnimPos)/100;
+            FatLine(AsphCanvas, P3.x, P3.y, P2.x, P2.y, 1, false, Smooth, Color2);
+         End
+           Else
+           Begin
+             P3.x := P1.x - (P1.x - P2.x)*(AnimPos-50)/100;
+             P3.y := P1.y - (P1.y - P2.y)*(AnimPos-50)/100;
+             FatLine(AsphCanvas, (P1.x + P2.x)/2, (P1.y + P2.y)/2, P3.x, P3.y, 1, false, Smooth, Color2);
+
+             P3.x := P2.x - (P2.x - P1.x)*(100-AnimPos)/100;
+             P3.y := P2.y - (P2.y - P1.y)*(100-AnimPos)/100;
+             FatLine(AsphCanvas, P3.x, P3.y, (P1.x + P2.x)/2, (P1.y + P2.y)/2, 1, false, Smooth, Color2);
+           End;
+      End;
+
+     End;
+  End;
+
+end;
+
+procedure SaveImitGPS(F: String);
+
+  function DegToDMSNMEA(Deg : double; mode : shortint) :string ;
+  var D,M, m4 : Integer;
+    s, MM :Double;
+    ddd : string;
+    mmm, mmmm : string;
+    sss : string;
+  begin
+    if mode=0 then
+     Result := format('%.9f',[Deg])
+    else
+    Begin
+
+      D := trunc(Deg);
+
+      if Deg < 0 then
+        Deg := -Deg;
+
+      Mm := (frac(Deg)*60);
+
+      M := trunc(frac(Deg)*60);
+      s := (frac(Deg)*60-M)*60;
+
+      if round(s*1000) >= 60000 then
+      begin
+        s := s - 60;
+        if s < 0 then
+          s := 0;
+        inc(M);
+      end;
+      if M >=60 then
+      begin
+        M := M - 60;
+        if M < 0 then
+          M := 0;
+        inc(D);
+      end;
+
+      ddd :=  inttostr(trunc(D));
+      if d<10 then
+       ddd := '0' + ddd;
+
+       if mode = 5 then
+        if d<100 then
+         ddd := '0' + ddd;
+
+      mmm :=  inttostr(trunc(M));
+      if m<10 then
+        mmm := '0' + mmm;
+
+      m4 := trunc(10000*(Mm - M));
+      mmmm := intTostr(m4);
+
+      if m4 < 1000 then
+         mmmm := '0'+ mmmm;
+      if m4 < 100 then
+         mmmm := '0'+ mmmm;
+      if m4 < 10 then
+         mmmm := '0'+ mmmm;
+      if m4 < 1 then
+         mmmm := '0'+ mmmm;
+
+
+      sss := inttostr(trunc(s)) ;
+      if s<10 then
+        sss := '0' + sss;
+
+      if Mode=1 then
+          Result:=inttostr(trunc(D))+' '+inttostr(trunc(M))+' '+format('%.4f',[s])
+         else
+          if Mode = 2 then
+            Result:= inttostr(trunc(D))+#176+' '+inttostr(trunc(M))+#39+' '+format('%.4f',[s])+#34
+        else
+          if Mode = 3 then
+            Result:= ddd +mmm+ sss+'.000'
+           else
+             if Mode >= 4 then
+               Result:= ddd+mmm+'.'+mmmm;
+
+     End;
+  end;
+
+var S : TStringList;
+    i : integer;
+    H,azmt : Double;
+    LatLon : TLatLong;
+begin
+     S := TStringList.Create;
+     try
+       for i:=1 to length(GPS)-1 do
+       begin
+
+         LatLon := MapToBL(GPS[i].x, GPS[i].y);
+
+         azmt := arctan2((GPS[i].x-GPS[i-1].x),(GPS[i].y-GPS[i-1].y))*180/pi;
+
+         S.Add('$GPGGA,'+DegToDMSNMEA(i/3600,3)+','+DegToDMSNMEA(LatLon.lat,4)
+                +',N,'+DegToDMSNMEA(LatLon.long,5)+',E,60,'+IntToStr(trunc(10.0))
+                +','+IntToStr(trunc(1.0))+'.00,106.5,M,-36.2,M,,0000*79');
+         S.Add('$GPRMC,'+DegToDMSNMEA(i/3600,3)+',A,'+DegToDMSNMEA(LatLon.lat,4)
+                +',N,'+DegToDMSNMEA(LatLon.long,5)+',E,60.24,'+IntToStr(trunc(azmt))
+                +'.00,300816,,,A*56');
+
+       end;
+       S.SaveToFile(F);
+     except
+     end;
+     S.Free;
+end;
+
+
+end.

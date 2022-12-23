@@ -1,0 +1,97 @@
+program RouteEditor;
+
+uses
+  Forms,
+  MapperFm in 'MapperFm.pas' {MapFm},
+  FLoader in 'FLoader.pas' {FLoadGPS},
+  TabFunctions in 'TabFunctions.pas',
+  LoadData in 'LoadData.pas' {LoadRData},
+  GeoCalcUnit in 'GeoCalcUnit.pas' {GeoCalcFm},
+  MapFunctions in 'MapFunctions.pas',
+  DrawFunctions in 'DrawFunctions.pas',
+  BasicMapObjects in 'BasicMapObjects.pas',
+  HUD1 in 'HUD1.pas',
+  HintFm in 'HintFm.pas' {HintForm},
+  CoordSysFm in 'CoordSysFm.pas' {CSForm},
+  MapEditor in 'MapEditor.pas',
+  LangLoader in 'LangLoader.pas',
+  SaveTXT in 'SaveTXT.pas' {SaveTXTFm},
+  UMarkEd in 'UMarkEd.pas' {MarkEd},
+  Imitator in 'Imitator.pas',
+  UEdWin in 'UEdWin.pas' {EdWin},
+  UEdTools in 'UEdTools.pas' {Edtools},
+  UMovep in 'UMovep.pas' {Movep},
+  UNamer in 'UNamer.pas' {Namer},
+  UGetMapPos in 'UGetMapPos.pas' {GetMapPos},
+  UOrderW in 'UOrderW.pas' {OrderW},
+  TrackFunctions in 'TrackFunctions.pas',
+  LoadTrack in 'LoadTrack.pas' {LoadT},
+  GeoTime in 'GeoToolsUnits\GeoTime.pas',
+  ParUnit1 in 'ParUnit1.pas' {RedForm},
+  USaveTrack in 'USaveTrack.pas' {TrackSaver},
+  ULoadA in 'ULoadA.pas' {LoadA},
+  USets in 'USets.pas' {SetFm},
+  YandexMap in 'YandexMap.pas',
+  UROps in 'UROps.pas' {FRops},
+  URList in 'URList.pas' {FRList},
+  UEopen in 'UEopen.pas' {EOpen},
+  URNewOps in 'URNewOps.pas' {RouteOps},
+  UMarkerList in 'UMarkerList.pas' {MarkerList},
+  UMarkerOps in 'UMarkerOps.pas' {MarkerOps},
+  UCalendar in 'UCalendar.pas' {FCalendar},
+  UClone in 'UClone.pas' {CloneFm},
+  UDevStar in 'UDevStar.pas' {DevStarFm},
+  UKnotList in 'UKnotList.pas' {FKnotList},
+  UsaveKnots in 'UsaveKnots.pas' {FSaveKnots},
+  UKnotPickets in 'UKnotPickets.pas' {FKnotPickets},
+  URegions in 'URegions.pas',
+  ULoadBLNData in 'ULoadBLNData.pas' {LoadBlnData},
+  UExportKnots in 'UExportKnots.pas' {FExportKnots},
+  UReduseTr in 'UReduseTr.pas' {FreduceTrack},
+  UStatBox in 'UStatBox.pas' {StatBox},
+  UOpenUdf in 'UOpenUdf.pas' {FOpenUdf},
+  PointClasses in 'PointClasses.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.Title := 'RouteEditor';
+  Application.CreateForm(TMapFm, MapFm);
+  Application.CreateForm(TFLoadGPS, FLoadGPS);
+  Application.CreateForm(TLoadRData, LoadRData);
+  Application.CreateForm(TGeoCalcFm, GeoCalcFm);
+  Application.CreateForm(THintForm, HintForm);
+  Application.CreateForm(TCSForm, CSForm);
+  Application.CreateForm(TSaveTXTFm, SaveTXTFm);
+  Application.CreateForm(TMarkEd, MarkEd);
+  Application.CreateForm(TEdWin, EdWin);
+  Application.CreateForm(TEdtools, Edtools);
+  Application.CreateForm(TMovep, Movep);
+  Application.CreateForm(TNamer, Namer);
+  Application.CreateForm(TGetMapPos, GetMapPos);
+  Application.CreateForm(TOrderW, OrderW);
+  Application.CreateForm(TLoadT, LoadT);
+  Application.CreateForm(TRedForm, RedForm);
+  Application.CreateForm(TTrackSaver, TrackSaver);
+  Application.CreateForm(TLoadA, LoadA);
+  Application.CreateForm(TSetFm, SetFm);
+  Application.CreateForm(TFRops, FRops);
+  Application.CreateForm(TFRList, FRList);
+  Application.CreateForm(TEOpen, EOpen);
+  Application.CreateForm(TRouteOps, RouteOps);
+  Application.CreateForm(TMarkerList, MarkerList);
+  Application.CreateForm(TMarkerOps, MarkerOps);
+  Application.CreateForm(TFCalendar, FCalendar);
+  Application.CreateForm(TCloneFm, CloneFm);
+  Application.CreateForm(TDevStarFm, DevStarFm);
+  Application.CreateForm(TFKnotList, FKnotList);
+  Application.CreateForm(TFSaveKnots, FSaveKnots);
+  Application.CreateForm(TFKnotPickets, FKnotPickets);
+  Application.CreateForm(TLoadBlnData, LoadBlnData);
+  Application.CreateForm(TFExportKnots, FExportKnots);
+  Application.CreateForm(TFreduceTrack, FreduceTrack);
+  Application.CreateForm(TStatBox, StatBox);
+  Application.CreateForm(TFOpenUdf, FOpenUdf);
+  Application.Run;
+end.

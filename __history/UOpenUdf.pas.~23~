@@ -1,0 +1,227 @@
+unit UOpenUdf;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls, GeoClasses, GeoFiles, LangLoader,
+  UDF_reader, URegions, MapEditor, GeoString, TrackFunctions;
+
+type
+  TFOpenUdf = class(TForm)
+    CSKind: TRadioGroup;
+    PageControl1: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    cDatum: TComboBox;
+    cGK: TRadioButton;
+    cUTM: TRadioButton;
+    Csys: TStaticText;
+    ToAll: TCheckBox;
+    Button1: TButton;
+    GroupBox1: TGroupBox;
+    AddTrack: TCheckBox;
+    Label1: TLabel;
+    Label5: TLabel;
+    Label7: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label11: TLabel;
+    Hgeo: TCheckBox;
+    lL: TLabel;
+    lB: TLabel;
+    lPl: TLabel;
+    lHg: TLabel;
+    lE: TLabel;
+    lN: TLabel;
+    lH: TLabel;
+    lTerra: TLabel;
+    Button2: TButton;
+    DataOrder: TComboBox;
+    Label10: TLabel;
+    Label12: TLabel;
+    procedure CsysMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure CsysMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure Button1Click(Sender: TObject);
+    procedure CSKindClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure RefreshData;
+    procedure cDatumChange(Sender: TObject);
+    procedure CsysClick(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+     UdfName: string;
+     UDFDatum, UDFCS :Integer;
+     DeclineAll :Boolean;
+    { Public declarations }
+  end;
+
+var
+  FOpenUdf: TFOpenUdf;
+ 
+implementation
+
+uses MapperFm;
+
+{$R *.dfm}
+
+procedure TFOpenUdf.Button1Click(Sender: TObject);
+begin
+  if CSKind.ItemIndex = 1 then
+  if MapFm.CoordSysN = -1 then
+  begin
+      MessageDlg(inf[169], mtError, [mbOk], 0);
+      exit;
+  end
+  else
+    if CoordinateSystemList[MapFm.CoordSysN].ProjectionType < 2 then
+    begin
+      MessageDlg(inf[169], mtError, [mbOk], 0);
+      exit;
+    end;
+  RefreshData;
+
+  UDFToMarker(UDFName, UDFCS, UDFDatum, CSKind.ItemIndex = 0, Hgeo.Checked,
+     DataOrder.ItemIndex = 0);
+
+  if AddTrack.Checked then
+  begin
+    LoadTrackFromUDF(UDFName, MainTrack, UDFCS, UDFDatum, CSKind.ItemIndex = 0,
+      Hgeo.Checked, DataOrder.ItemIndex = 0);
+    // ClickMode := 40;
+    MapFm.PC.ActivePageIndex := 5;
+    MapFm.JumpTrack.Click;
+  end;
+
+  DeclineAll := false;
+  close;
+end;
+
+procedure TFOpenUdf.Button2Click(Sender: TObject);
+begin
+  DeclineAll := true;
+  close;
+end;
+
+procedure TFOpenUdf.cDatumChange(Sender: TObject);
+begin
+ RefreshData;
+end;
+
+procedure TFOpenUdf.CSKindClick(Sender: TObject);
+begin
+ PageControl1.ActivePageIndex := CSKind.ItemIndex;
+ RefreshData;
+end;
+
+procedure TFOpenUdf.CsysClick(Sender: TObject);
+begin
+  MapFm.Csys.OnClick(nil);
+  Csys.Caption := MapFm.Csys.Caption;
+  RefreshData;
+end;
+
+procedure TFOpenUdf.CsysMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  MapFm.Csys.OnClick(nil);
+  Csys.Caption := MapFm.Csys.Caption;
+  RefreshData;
+end;
+
+procedure TFOpenUdf.CsysMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  Csys.Hint := Csys.Caption;
+  Canvas.Font := Csys.Font;
+  Csys.ShowHint := Canvas.TextWidth(Csys.Caption) > Csys.Width; 
+end;
+
+procedure TFOpenUdf.FormShow(Sender: TObject);
+var I:Integer;
+    s: string;
+begin
+  DeclineAll := true;
+
+  I := DataOrder.ItemIndex;
+  if I = -1 then  I := 0;
+  DataOrder.Clear;
+  DataOrder.Items.Add(inf[115]);
+  DataOrder.Items.Add(inf[116]);
+  DataOrder.ItemIndex := I;
+
+  csys.Caption := MapFm.Csys.Caption;
+
+  if cDatum.Items.Count = 0 then
+  begin
+    for I := 0 to Length(DatumList) - 1 do
+      cDatum.Items.Add(DatumList[I].Caption);
+
+    for I := 0 to Length(DatumList) - 1 do
+      if DatumList[I].Name = 'SK42' then
+        cDatum.ItemIndex := I;
+  end;
+
+  s := ExtractFileName(UdfName);
+  s := copy(s, 1, length(s)-4);
+
+  Label12.Caption := s;
+
+  RefreshData;
+end;
+
+procedure TFOpenUdf.RefreshData;
+var x, y, h, b, l, rmsp, rmsh :Double;
+begin
+  lN.Caption := '-';   lE.Caption := '-';  lH.Caption := '-';
+  lPl.Caption := '-';  lHg.Caption := '-';
+  lB.Caption := '-';   lL.Caption := '-';  lTerra.Caption := '-';
+
+  if CSKind.ItemIndex = 1 then
+  if MapFm.CoordSysN = -1 then
+      exit
+  else
+    if CoordinateSystemList[MapFm.CoordSysN].ProjectionType < 2 then
+      exit;
+  case CSKind.ItemIndex of
+    0: begin
+       UDFDatum := cDatum.ItemIndex;
+       case cGK.Checked of
+         true:  UDFCS := 2;
+         false: UDFCS := 3;
+       end;
+    end;
+    1: UDFCS := MapFm.CoordSysN;
+  end;
+
+  AnalyseUDF(UDFName, UDFCS, UDFDatum, CSKind.ItemIndex = 0, Hgeo.Checked,
+           DataOrder.ItemIndex = 0, X, Y, H, B, L, RMSp, RMSh);
+
+  lN.Caption := Format('%n', [X]);
+  lE.Caption := Format('%n', [Y]);
+  lH.Caption := Format('%n', [H]);
+
+  lPl.Caption := Format('%n', [Rmsp]);
+  lHg.Caption := Format('%n', [RmsH]);
+
+  lB.Caption := DegToDms(B, True,  5);
+  lL.Caption := DegToDms(L, False, 5);
+  lTerra.Caption := GetRegion(B, L);
+
+  if lTerra.Caption = '-' then
+  begin
+     lTerra.Caption := inf[172];
+     lTerra.Font.Color := clRed;
+  end
+   else lTerra.Font.Color := clWindowText;
+end;
+
+end.

@@ -1,0 +1,58 @@
+object KmlOpn: TKmlOpn
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'KmlOpn'
+  ClientHeight = 211
+  ClientWidth = 210
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object CheckBox1: TCheckBox
+    Left = 8
+    Top = 8
+    Width = 97
+    Height = 17
+    Caption = 'Markers'
+    TabOrder = 0
+  end
+  object Button1: TButton
+    Left = 24
+    Top = 178
+    Width = 75
+    Height = 25
+    Caption = 'Open'
+    TabOrder = 1
+  end
+  object CheckBox2: TCheckBox
+    Left = 8
+    Top = 31
+    Width = 97
+    Height = 17
+    Caption = 'Routes'
+    TabOrder = 2
+  end
+  object CheckBox3: TCheckBox
+    Left = 8
+    Top = 54
+    Width = 97
+    Height = 17
+    Caption = 'Area borders'
+    TabOrder = 3
+  end
+  object Button2: TButton
+    Left = 105
+    Top = 178
+    Width = 75
+    Height = 25
+    Caption = 'Cancel'
+    TabOrder = 4
+  end
+end

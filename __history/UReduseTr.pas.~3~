@@ -1,0 +1,56 @@
+unit UReduseTr;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Spin;
+
+type
+  TForm1 = class(TForm)
+    IEp: TCheckBox;
+    SpinEdit1: TSpinEdit;
+    Panel1: TPanel;
+    dTEp: TCheckBox;
+    dLEp: TCheckBox;
+    ComboBox1: TComboBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    ComboBox2: TComboBox;
+    Panel2: TPanel;
+    Label4: TLabel;
+    dAzmtEp: TCheckBox;
+    ComboBox4: TComboBox;
+    ComboBox3: TComboBox;
+    Label3: TLabel;
+    bOk: TButton;
+    bCancel: TButton;
+    procedure bCancelClick(Sender: TObject);
+    procedure IEpClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+procedure TForm1.bCancelClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TForm1.IEpClick(Sender: TObject);
+begin
+  Panel1.Enabled := not IEp.Checked;
+  Panel2.Enabled := not ((IEp.Checked) or (dTEp.Checked) or (dLEp.Checked));
+  bOk.Enabled := (IEp.Checked) or (dTEp.Checked) or (dLEp.Checked)
+                 or (dAzmtEp.Checked);
+end;
+
+end.

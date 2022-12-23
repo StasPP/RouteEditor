@@ -1,0 +1,220 @@
+unit UDevStar;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, ComCtrls, ImgList, Buttons, Spin, BasicMapObjects,
+  MapFunctions, MapEditor, GeoString, PointClasses;
+
+type
+  TDevStarFm = class(TForm)
+    MBox: TComboBox;
+    EditNm: TEdit;
+    GroupBox1: TGroupBox;
+    is2: TRadioButton;
+    Image1: TImage;
+    is4: TRadioButton;
+    Image2: TImage;
+    is0: TRadioButton;
+    Image3: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    Diam_: TSpinEdit;
+    Edit2: TEdit;
+    Label3: TLabel;
+    Edit3: TEdit;
+    Label4: TLabel;
+    CalcMe: TSpeedButton;
+    AcceptButton: TButton;
+    CancelButton: TButton;
+    GroupBox2: TGroupBox;
+    RB1: TRadioButton;
+    RB2: TRadioButton;
+    RB3: TRadioButton;
+    RB4: TRadioButton;
+    Panel1: TPanel;
+    GapVal: TSpinEdit;
+    AddGaps: TCheckBox;
+    Label5: TLabel;
+    Panel2: TPanel;
+    fixDir: TCheckBox;
+    Label6: TLabel;
+    DSAzmt_: TSpinEdit;
+    procedure CalcMeClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure RB1Click(Sender: TObject);
+    procedure CalcWGS;
+    procedure MBoxChange(Sender: TObject);
+    procedure CancelButtonClick(Sender: TObject);
+    procedure AcceptButtonClick(Sender: TObject);
+    procedure is2Click(Sender: TObject);
+    procedure is0Click(Sender: TObject);
+    procedure is4Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DevStarFm: TDevStarFm;
+  C: TMyPoint;
+
+implementation
+
+uses UMarkEd, MapperFm;
+
+{$R *.dfm}
+
+procedure TDevStarFm.CalcWGS;
+var C2:TLatLong;
+begin
+  C2 := MapToBL(C.x, C.y);
+  Edit2.Text := DegToDMS(C2.lat,  true, 5, false);
+  Edit3.Text := DegToDMS(C2.long, false,5, false);
+end;
+
+procedure TDevStarFm.FormShow(Sender: TObject);
+var I:Integer;
+begin
+   C.x := Center.x;
+   C.y := Center.y;
+
+   MBox.Clear;
+   for I := 0 to Length(Markers) - 1 do
+      MBox.Items.Add(Markers[I].MarkerName);
+
+   MBox.ItemIndex := 0;
+
+   if RB4.Checked then
+      RB1.Checked := True;
+      
+   RB1.Enabled := FrameCount > 0;
+   RB2.Enabled := Length(Markers) > 0;
+
+   if RB1.Checked then
+     case RB1.Enabled of
+         true: RB1.OnClick(nil);
+         false: begin
+            RB3.Checked := True;
+         end;
+     end;
+
+    if RB2.Checked then
+     case RB2.Enabled of
+         true: RB1.OnClick(nil);
+         false: begin
+            RB3.Checked := True;
+         end;
+     end;
+
+    RB1.OnClick(nil);
+end;
+
+procedure TDevStarFm.is0Click(Sender: TObject);
+begin
+  Panel1.Visible := is0.Checked;
+  Panel2.Visible := not is0.Checked;
+end;
+
+procedure TDevStarFm.is2Click(Sender: TObject);
+begin
+  Panel1.Visible := is0.Checked;
+  Panel2.Visible := not is0.Checked;
+end;
+
+procedure TDevStarFm.is4Click(Sender: TObject);
+begin
+  Panel1.Visible := is0.Checked;
+  Panel2.Visible := not is0.Checked;
+end;
+
+procedure TDevStarFm.MBoxChange(Sender: TObject);
+begin
+  C.x := Markers[Mbox.ItemIndex].x;
+  C.y := Markers[Mbox.ItemIndex].y;
+  CalcWGS;
+end;
+
+procedure TDevStarFm.RB1Click(Sender: TObject);
+var I:integer;
+begin
+  if RB1.Checked then
+  if FrameCount >0 then
+  begin
+     C.x := 0;   C.y := 0;
+     for I := 0 to FrameCount - 1 do
+     begin
+       C.x := C.x + FramePoints[I,1].x;
+       C.y := C.y + FramePoints[I,1].y;
+     end;
+     C.x := C.x /FrameCount;
+     C.y := C.y /FrameCount;
+  end;
+
+  if RB2.Checked then
+     MBox.OnChange(nil);
+
+  if RB3.Checked then
+  begin
+     C.x := Center.x;
+     C.y := Center.y;
+  end;
+
+  if RB4.Checked then
+   CalcMe.Click;
+
+  MBox.Visible := RB2.Checked;
+
+  CalcWGS;
+end;
+
+procedure TDevStarFm.AcceptButtonClick(Sender: TObject);
+var I, j :integer;
+begin
+   if is0.Checked then
+      I := 0
+       else
+       if is4.Checked then
+          I := 4
+          else
+             I := 2;
+
+   j := 0;
+   if AddGaps.Checked then
+     j := GapVal.Value;
+
+   MadeDevStar(C, Diam.Value/2, I, EditNm.Text, j, FixDir.Checked, DSAzmt.Value);
+   MapFm.SaveCtrlZ;
+   Close
+end;
+
+procedure TDevStarFm.CancelButtonClick(Sender: TObject);
+begin
+    Close;
+end;
+
+procedure TDevStarFm.CalcMeClick(Sender: TObject);
+var C2:TLatLong;
+begin
+    if RB4.Checked = false then
+    begin
+       RB4.Checked := true;
+       exit;
+    end;
+
+    MarkEd.Edit2.Text := Edit2.Text;
+    MarkEd.Edit3.Text := Edit3.Text;
+    MarkEd.PMode := 3;
+    MarkEd.ShowModal;
+
+    try
+      C2.Lat := StrToLatLon(Edit2.Text, true);
+      C2.Long := StrToLatLon(Edit3.Text, true);
+      C := BLToMap(C2);
+    except
+    end;
+end;
+
+end.

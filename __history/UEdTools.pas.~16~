@@ -1,0 +1,87 @@
+unit UEdTools;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Buttons, ExtCtrls, StdCtrls;
+
+type
+  TEdtools = class(TForm)
+    BPos: TSpeedButton;
+    BName: TSpeedButton;
+    BShift: TSpeedButton;
+    Bevel1: TBevel;
+    CB: TCheckBox;
+    BDel: TSpeedButton;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure CBClick(Sender: TObject);
+    procedure BShiftClick(Sender: TObject);
+    procedure BDelClick(Sender: TObject);
+    procedure BPosClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Edtools: TEdtools;
+  Started: Boolean = false;
+
+implementation
+
+uses MapperFm, UMovep;
+
+{$R *.dfm}
+
+procedure TEdtools.CBClick(Sender: TObject);
+begin
+ if CB.Checked then
+ Begin
+   BorderStyle := BsToolWindow;
+   Bevel1.Shape := BsSpacer
+ End
+    else
+    begin
+       BorderStyle := BsNone;
+       Bevel1.Shape := BsBox;
+       OnShow(nil);
+    end;
+end;
+
+procedure TEdtools.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  Started := false
+end;
+
+procedure TEdtools.FormShow(Sender: TObject);
+begin
+  if (Started = false) or (BorderStyle = bsNone) then
+  Begin
+    Started := true;
+    Top   := MapFm.Top - (MapFm.ClientHeight - MapFM.Height) + MapFm.Tools.Height - 5;
+    Left  := MapFm.Left - (MapFm.ClientWidth - MapFM.Width) div 2 + 3;
+  End;
+
+    
+end;
+
+procedure TEdtools.BDelClick(Sender: TObject);
+begin
+   MapFm.DelSelected;
+   MapFm.GetEdTools;
+end;
+
+procedure TEdtools.BPosClick(Sender: TObject);
+begin
+  MapFm.CoordForSelected;
+end;
+
+procedure TEdtools.BShiftClick(Sender: TObject);
+begin
+  Movep.Show;
+end;
+
+end.

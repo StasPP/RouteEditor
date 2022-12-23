@@ -1,0 +1,16 @@
+unit PointClasses;
+
+interface
+
+  type
+  TLatLong = record
+      lat, long :Double
+  end;
+
+  TMyPoint = record
+      x, y :Double
+  end;
+
+implementation
+
+end.

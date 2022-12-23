@@ -1,0 +1,180 @@
+unit UEdWin;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, ImgList, ComCtrls, BasicMapObjects,
+  LangLoader, MapFunctions, MapEditor;
+
+type
+  TEdWin = class(TForm)
+    TreeView1: TTreeView;
+    ImageList1: TImageList;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+
+    procedure ReFreshTree;
+    procedure TreeView1MouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure TreeView1Change(Sender: TObject; Node: TTreeNode);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  EdWin: TEdWin;
+  Started: Boolean = false;
+implementation
+
+uses MapperFm;
+
+{$R *.dfm}
+
+procedure TEdWin.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  MapFm.EdW.Flat := true;
+end;
+
+procedure TEdWin.FormShow(Sender: TObject);
+begin
+  if not Started then
+  Begin
+    Started := true;
+    Top   := MapFm.Top + MapFm.Height - Height;
+    Left := MapFm.Left + MapFm.Width - Width;
+  End;
+  ReFreshTree;
+end;
+
+procedure TEdWin.ReFreshTree;
+var I, J :Integer;
+    Node1, Node2, Node3, Node4, Node5 : TTreeNode;
+begin
+  TreeView1.Items.Clear;
+
+  if RouteCount > 0 then
+  Begin
+    Node1 := TreeView1.Items.AddFirst(nil, Inf[24]);
+    with Node1 do
+    begin
+       ImageIndex := 2;
+       SelectedIndex := 7;
+    end;
+    for I := 0 to RouteCount - 1 do
+    Begin
+      Node2 := TreeView1.Items.AddChild(Node1,Route[I].Name);
+      with Node2 do
+      begin
+         ImageIndex := 3;
+         SelectedIndex := 8;
+      end;
+      for J := 0 to Length(Route[I].WPT)-1 do
+      begin
+         Node3 := TreeView1.Items.AddChild(Node2,Inf[25]+IntToStr(J+1));
+         with Node3 do
+         begin
+           ImageIndex := 4;
+           SelectedIndex := 9;
+         end;
+      end;
+    End;
+  End;
+
+  if Frame then
+  Begin
+    Node5 := TreeView1.Items.AddFirst(nil, Inf[23]);
+    with Node5 do
+    begin
+       ImageIndex := 0;
+       SelectedIndex := 5;
+    end;
+
+    for I := 0 to FrameCount - 2 do
+    Begin
+      Node4 := TreeView1.Items.AddChild(Node5,Inf[25]+IntToStr(i+1));
+      with Node4 do
+      begin
+         ImageIndex := 1;
+         SelectedIndex := 6;
+      end;
+    End;
+  End;
+
+   TreeView1.refresh;
+   
+  case ClickMode of
+    21,22,25,27:
+    begin
+
+
+      if Node5.Count > 0 then
+         Node5.Expand(true);
+
+      Node5.Selected := true;
+
+      if ClickMode<>25 then
+        for I := 0 to Node5.Count - 1 do
+        try
+           Node4 := Node5[I];
+           if SelectedFramePoints[I] then
+             TreeView1.Select(Node4, [ssCtrl]);
+
+        except
+        end;
+    end;
+
+    23,24,26,28: if Node1 <> nil then
+    if Node1.Count > 0 then
+    begin
+
+       Node1.Expand(false);
+       Node1.Selected := true;
+
+       if ClickMode=26 then
+       begin
+         if  Node1[ Node1.Count - 1 ].Count > 0 then
+             Node1[ Node1.Count - 1 ].Expand(true)
+       end
+       else
+       for I := 0 to Node1.Count - 1 do
+         if Node1.Count > 0 then
+           for J := 0 to Node1[I].Count - 1 do
+           try
+              Node4 := Node1[I][J];
+
+              if I = MapFm.RouteBox.ItemIndex-1 then
+                if  Node1[I].Expanded = false then
+                    Node1[I].Expand(true);
+
+              if SelectedRoutePoints[I][J] then
+              Begin
+                if  Node1[I].Expanded = false then
+                    Node1[I].Expand(true);
+
+                   TreeView1.Select(Node4, [ssCtrl]);
+              End;
+
+           except
+           end;
+
+    end;
+  end;
+
+
+end;
+
+procedure TEdWin.TreeView1Change(Sender: TObject; Node: TTreeNode);
+begin
+//
+end;
+
+procedure TEdWin.TreeView1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  TreeView1.SetFocus;
+end;
+
+end.

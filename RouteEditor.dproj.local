@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2021.03.23 15:27:10.427.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotList.pas</Transaction>
+    <Transaction>2021.03.23 15:27:10.427.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotList.dfm</Transaction>
+    <Transaction>2021.03.23 16:41:21.357.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UsaveKnots.pas</Transaction>
+    <Transaction>2021.03.23 16:41:21.357.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UsaveKnots.dfm</Transaction>
+    <Transaction>2021.03.31 13:30:52.966.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotPickets.pas</Transaction>
+    <Transaction>2021.03.31 13:30:52.966.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UKnotPickets.dfm</Transaction>
+    <Transaction>2021.06.17 19:46:52.961.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\ULoadBLNData.pas</Transaction>
+    <Transaction>2021.06.17 19:46:52.961.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\ULoadBLNData.dfm</Transaction>
+    <Transaction>2021.06.25 15:42:57.313.pas,D:\Стас\BackUp 2021-06-18\Utils\RouteEditor\Unit1.pas=D:\Стас\BackUp 2021-06-18\Utils\RouteEditor\UExportKnots.pas</Transaction>
+    <Transaction>2021.06.25 15:42:57.313.dfm,D:\Стас\BackUp 2021-06-18\Utils\RouteEditor\Unit1.dfm=D:\Стас\BackUp 2021-06-18\Utils\RouteEditor\UExportKnots.dfm</Transaction>
+    <Transaction>2021.07.19 13:56:24.907.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UReduseTr.pas</Transaction>
+    <Transaction>2021.07.19 13:56:24.907.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UReduseTr.dfm</Transaction>
+    <Transaction>2021.07.20 13:20:30.279.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UStatBox.pas</Transaction>
+    <Transaction>2021.07.20 13:20:30.279.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UStatBox.dfm</Transaction>
+    <Transaction>2021.09.17 10:10:22.266.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UOpenUdf.pas</Transaction>
+    <Transaction>2021.09.17 10:10:22.266.dfm,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.dfm=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\UOpenUdf.dfm</Transaction>
+    <Transaction>2021.09.22 11:07:32.183.pas,D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\Unit1.pas=D:\Документы - архив\Программы\RouteNav\CURRENT\RouteEditor\PointClasses.pas</Transaction>
+    <Transaction>2021.09.30 13:50:59.475.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UHgtGraphsW.pas</Transaction>
+    <Transaction>2021.09.30 13:50:59.476.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UHgtGraphsW.dfm</Transaction>
+    <Transaction>2022.01.16 15:24:29.430.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UMarkH.pas</Transaction>
+    <Transaction>2022.01.16 15:24:29.430.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UMarkH.dfm</Transaction>
+    <Transaction>2022.02.19 11:30:42.439.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UGroupKnotRenum.pas</Transaction>
+    <Transaction>2022.02.19 11:30:42.440.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UGroupKnotRenum.dfm</Transaction>
+    <Transaction>2022.06.12 16:31:49.447.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UGetMapPos.pas=</Transaction>
+    <Transaction>2022.06.12 16:31:49.447.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UGetMapPos.dfm=</Transaction>
+    <Transaction>2022.07.23 17:27:38.439.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UTrackCS.pas</Transaction>
+    <Transaction>2022.07.23 17:27:38.439.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UTrackCS.dfm</Transaction>
+    <Transaction>2022.10.06 16:34:36.523.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UCollapseFm.pas</Transaction>
+    <Transaction>2022.10.06 16:34:36.523.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UCollapseFm.dfm</Transaction>
+    <Transaction>2022.11.22 13:19:32.500.pas,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.pas=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UOpenKML.pas</Transaction>
+    <Transaction>2022.11.22 13:19:32.500.dfm,C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\Unit1.dfm=C:\Users\Satellite\Desktop\Разработки\Soft\RouteNav\Utils\RouteEditor\UOpenKML.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,395 @@
+unit UDF_reader;
+
+interface
+
+uses SysUtils, ComCtrls, Classes;
+
+type TUDFHeader = record
+  Version : string[20];
+  isT, isXYZ, isH,
+  isCur, isEMF, isTD : Byte;
+end;
+
+type TUDFAbstractPoint = record
+  P_num     : integer;
+  TimeScale : byte;
+  TimeStep  : double;
+  Enf_Coef  : double;
+  Time      : array of Double;
+  Values    : array of Double;
+end;
+
+type TUDFAbstract = record
+  Channel_count : integer;
+  Channel_data  : array of TUDFAbstractPoint;
+end;
+
+type TFullUDFData = record
+  DateTime    : TDateTime;
+  X, Y, Z     : Double;
+  H, EMF, Cur : TUDFAbstract;
+end;
+
+type TUDFData = record
+  DateTime : TDateTime;
+  X, Y, Z  : Double;
+end;
+
+type TUDF = record
+  Data     : Array of TUDFData;
+  DataCount: integer;
+end;
+
+type TFullUDF = record
+  Header   : Array of TUDFHeader;
+  Data     : Array of TFullUDFData;
+  DataCount: integer;
+end;
+
+function OpenUdfFile(FileName: string; var UDF: TUDF;
+                     PB: TProgressBar):boolean;   overload;
+function OpenUdfFile(FileName: string; var UDF: TFullUDF;
+                     PB: TProgressBar):boolean;  overload;
+function OpenUdfFile(FileName: string; var UDF: TFullUDF):boolean;  overload;
+function OpenUdfFile(FileName: string; var UDF: TUDF):boolean;   overload;
+
+implementation
+
+(*
+function OpenUdfFile(FileName: string; var UDF: TFullUDF):boolean;  overload;
+var I, CurI :Integer;
+    DT : array[0..7] of Word;
+    f  : File;
+
+procedure ReadAbstractData (var D: TUDFAbstract);
+var Ch, j :Integer;
+begin
+  BlockRead(f, D.Channel_count, 4);
+
+  SetLength(D.Channel_data, D.Channel_count);
+
+  for Ch := 0 to D.Channel_count-1 do
+  begin
+     BlockRead(f, D.Channel_data[Ch].P_num, 4);
+     BlockRead(f, D.Channel_data[Ch].TimeScale, 1);
+     BlockRead(f, D.Channel_data[Ch].TimeStep, 8);
+     BlockRead(f, D.Channel_data[Ch].Enf_Coef, 8);
+
+     if D.Channel_data[Ch].TimeScale = 1 then
+     begin
+       D.Channel_data[Ch].TimeStep := -1;
+       SetLength(D.Channel_data[Ch].Time, D.Channel_data[Ch].P_num);
+       for j := 0 to D.Channel_data[Ch].P_num - 1 do
+          BlockRead(f, D.Channel_data[Ch].Time[j], 8);
+     end;
+
+     SetLength(D.Channel_data[Ch].Values, D.Channel_data[Ch].P_num);
+     for j := 0 to D.Channel_data[Ch].P_num - 1 do
+          BlockRead(f, D.Channel_data[Ch].Values[I], 8);
+  end;
+
+end;
+
+
+begin
+  if FileExists(FileName) = false then
+    exit;
+
+  
+  AssignFile(f, FileName);
+  FileMode := fmOpenRead;
+  Reset(f, 1);
+
+  BlockRead(f, Udf.header.Version, 20);
+  BlockRead(f, Udf.header.isT, 1);
+  BlockRead(f, Udf.header.isXYZ, 1);
+  BlockRead(f, Udf.header.isH, 1);
+  BlockRead(f, Udf.header.isCur, 1);
+  BlockRead(f, Udf.header.isEMF, 1);
+  BlockRead(f, Udf.header.isTD, 1);
+
+  SetLength(UDF.Data, 1000);
+  CurI := 0;
+
+  while not EoF(f) do
+  try
+    Udf.DataCount := CurI;
+    if CurI > Length(UDF.Data) -1 then
+       SetLength(UDF.Data, Length(UDF.Data) + 1000);
+
+    if Udf.header.isT > 0 then
+    begin
+      for I := 0 to 7 do
+        BlockRead( f, DT[I], 2);
+
+      Udf.Data[CurI].DateTime := EncodeDate(DT[0], DT[1], DT[3]);
+      Udf.Data[CurI].DateTime := Udf.Data[CurI].DateTime  +
+                                 EncodeTime(DT[4], DT[5], DT[6], DT[7]);
+    end;
+
+    if Udf.header.isXYZ > 0 then
+    begin
+        BlockRead(f, Udf.Data[CurI].X, 8);
+        BlockRead(f, Udf.Data[CurI].Y, 8);
+        BlockRead(f, Udf.Data[CurI].Z, 8);
+    end;
+
+    if Udf.Header.isH > 0 then
+        ReadAbstractData(Udf.Data[CurI].H);
+
+    if Udf.Header.isCur > 0 then
+        ReadAbstractData(Udf.Data[CurI].Cur);
+
+    if Udf.Header.isEMF > 0 then
+        ReadAbstractData(Udf.Data[CurI].EMF);
+
+    inc(CurI);
+  except
+    result := false;
+  end;
+
+  SetLength(UDF.Data, Udf.DataCount);
+  CloseFile(f);
+  result := true;
+end;
+*)
+
+function OpenUdfFile(FileName: string; var UDF: TFullUDF):boolean;  overload;
+begin
+  result := OpenUdfFile(FileName, Udf, nil);
+end;
+
+function OpenUdfFile(FileName: string; var UDF: TFullUDF;
+                     PB: TProgressBar):boolean;  overload;
+var I, CurI :Integer;
+    DT   : array[0..7] of Word;
+    f    : TFileStream;
+    Buf  : PChar;
+    Size : LongInt;
+
+procedure ReadAbstractData (var D: TUDFAbstract);
+var Ch, j :Integer;
+begin
+  f.Read(D.Channel_count, 4);
+
+  SetLength(D.Channel_data, D.Channel_count);
+
+  for Ch := 0 to D.Channel_count-1 do
+  begin
+     f.Read(D.Channel_data[Ch].P_num, 4);
+     f.Read(D.Channel_data[Ch].TimeScale, 1);
+     f.Read(D.Channel_data[Ch].TimeStep, 8);
+     f.Read(D.Channel_data[Ch].Enf_Coef, 8);
+
+     if D.Channel_data[Ch].TimeScale = 1 then
+     begin
+       D.Channel_data[Ch].TimeStep := -1;
+       SetLength(D.Channel_data[Ch].Time, D.Channel_data[Ch].P_num);
+       for j := 0 to D.Channel_data[Ch].P_num - 1 do
+          f.Read(D.Channel_data[Ch].Time[j], 8);
+     end;
+
+     SetLength(D.Channel_data[Ch].Values, D.Channel_data[Ch].P_num);
+     for j := 0 to D.Channel_data[Ch].P_num - 1 do
+          f.Read(D.Channel_data[Ch].Values[I], 8);
+  end;
+
+end;
+
+var Pos: Integer;
+begin
+  if FileExists(FileName) = false then
+    exit;
+
+  Pos :=0;
+
+  f := TFileStream.Create(FileName, fmOpenRead);
+
+
+
+  SetLength(UDF.Data, 1000);
+  SetLength(UDF.Header, 1000);
+  CurI := 0;
+
+  while f.Position < f.Size do
+  try
+
+    if Pb <> nil then
+    begin
+      Pos := round(100*f.Position/f.Size);
+      if Pb.Position <> Pos then
+      begin
+        Pb.Position := Pos;
+        Pb.Repaint;
+      end;
+    end;
+
+    Udf.DataCount := CurI;
+    if CurI > Length(UDF.Data) -1 then
+    begin
+       SetLength(UDF.Data, Length(UDF.Data) + 1000);
+       SetLength(UDF.Header, Length(UDF.Data));
+    end;
+
+    f.Read(Udf.header[CurI].Version, 20);
+    f.Read(Udf.header[CurI].isT, 1);
+    f.Read(Udf.header[CurI].isXYZ, 1);
+    f.Read(Udf.header[CurI].isH, 1);
+    f.Read(Udf.header[CurI].isCur, 1);
+    f.Read(Udf.header[CurI].isEMF, 1);
+    f.Read(Udf.header[CurI].isTD, 1);
+
+    if Udf.header[CurI].isT > 0 then
+    begin
+      for I := 0 to 7 do
+        f.Read(DT[I], 2);
+
+      Udf.Data[CurI].DateTime := EncodeDate(DT[0], DT[1], DT[3]);
+      Udf.Data[CurI].DateTime := Udf.Data[CurI].DateTime  +
+                                 EncodeTime(DT[4], DT[5], DT[6], DT[7]);
+
+    end;
+
+    if Udf.header[CurI].isXYZ > 0 then
+    begin
+        f.Read(Udf.Data[CurI].X, 8);
+        f.Read(Udf.Data[CurI].Y, 8);
+        f.Read(Udf.Data[CurI].Z, 8);
+    end;
+
+    if Udf.Header[CurI].isH > 0 then
+        ReadAbstractData(Udf.Data[CurI].H);
+
+    if Udf.Header[CurI].isCur > 0 then
+        ReadAbstractData(Udf.Data[CurI].Cur);
+
+    if Udf.Header[CurI].isEMF > 0 then
+        ReadAbstractData(Udf.Data[CurI].EMF);
+
+    inc(CurI);
+  except
+    result := false;
+  end;
+
+  SetLength(UDF.Header, Udf.DataCount);
+  SetLength(UDF.Data,   Udf.DataCount);
+  f.Free;
+
+  result := true;
+end;
+
+function OpenUdfFile(FileName: string; var UDF: TUDF;
+                             PB:TProgressBar):boolean;  overload;
+var I, CurI, Pos :Integer;
+    DT   : array[0..7] of Word;
+    f    : TFileStream;
+    m    : TMemoryStream;
+
+procedure SkipAbstractData;
+var Ch, j, P_num, Ch_num :Integer; TS: byte;
+begin
+  m.Read(Ch_num, 4);
+
+  for Ch := 0 to Ch_num -1 do
+  begin
+     m.Read(P_num, 4);
+     m.Read(TS, 1);
+     m.Position := m.Position + 16;
+
+     if TS = 1 then m.Position := m.Position + 8*P_num;
+
+     m.Position := m.Position + 8*P_num;
+  end;
+
+end;
+
+var Buffer: PByte;   NumberOfBytes:int64;      Header: TUDFHeader;
+begin
+  if FileExists(FileName) = false then
+    exit;
+
+  if Pb <> nil then
+    Pb.Position := 0;
+
+  f := TFileStream.Create(FileName, fmOpenRead);
+  m := TMemoryStream.Create;
+  NumberOfBytes := f.Size;
+
+  m.SetSize(NumberOfBytes);
+  f.ReadBuffer(m.Memory^, NumberOfBytes);
+
+  SetLength(UDF.Data, 1000);
+  CurI := 0;
+  Pos  := 0;
+
+  while m.Position < m.Size do
+  try
+    m.Position := m.Position + 20;  // Version skip
+    m.Read(header.isT, 1);
+    m.Read(header.isXYZ, 1);
+    m.Read(header.isH, 1);
+    m.Read(header.isCur, 1);
+    m.Read(header.isEMF, 1);
+    m.Read(header.isTD, 1);
+
+    if Pb <> nil then
+    begin
+      Pos := round(100*m.Position/m.Size);
+      if Pb.Position <> Pos then
+      begin
+        Pb.Position := Pos;
+        Pb.Repaint;
+      end;
+    end;
+
+    Udf.DataCount := CurI;
+    if CurI > Length(UDF.Data) -1 then
+       SetLength(UDF.Data, Length(UDF.Data) + 1000);
+
+    if header.isT > 0 then
+    begin
+      for I := 0 to 7 do
+        m.Read(DT[I], 2);
+      try
+      Udf.Data[CurI].DateTime := EncodeDate(DT[0], DT[1], DT[3]);
+      Udf.Data[CurI].DateTime := Udf.Data[CurI].DateTime  +
+                                 EncodeTime(DT[4], DT[5], DT[6], DT[7]);
+      except
+        continue;
+      end;
+    end;
+
+    if header.isXYZ > 0 then
+    begin
+        m.Read(Udf.Data[CurI].X, 8);
+        m.Read(Udf.Data[CurI].Y, 8);
+        m.Read(Udf.Data[CurI].Z, 8);
+    end;
+
+    if Header.isH > 0 then
+        SkipAbstractData;
+
+    if Header.isCur > 0 then
+        SkipAbstractData;
+
+    if Header.isEMF > 0 then
+        SkipAbstractData;
+
+    // m.Position :=  m.Position + 10;
+    inc(CurI);
+  except
+    result := false;
+  end;
+
+  SetLength(UDF.Data, Udf.DataCount);
+  f.Free;
+  m.Free;
+  result := true;
+end;
+
+function OpenUdfFile(FileName: string; var UDF: TUDF):boolean;  overload;
+begin
+  result := OpenUdfFile(FileName, UDF, nil);
+end;
+
+end.

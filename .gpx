@@ -1,0 +1,1122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?> 
+<gpx xmlns="http://www.topografix.com/GPX/1/1" creator="RouteEditor" version="1.95" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+
+  <rte>
+    <name>1001</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9221467" lon="87.489983"
+    <name>1001_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9094248" lon="87.442162"
+    <name>1001_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1002</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9205168" lon="87.491243"
+    <name>1002_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9077760" lon="87.443351"
+    <name>1002_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1003</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9188876" lon="87.492503"
+    <name>1003_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9061282" lon="87.444541"
+    <name>1003_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1004</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9172584" lon="87.493763"
+    <name>1004_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9044804" lon="87.445730"
+    <name>1004_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1005</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9156292" lon="87.495023"
+    <name>1005_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9028325" lon="87.446919"
+    <name>1005_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1006</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9139999" lon="87.496282"
+    <name>1006_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.9011846" lon="87.448108"
+    <name>1006_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1007</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9123707" lon="87.497542"
+    <name>1007_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8995368" lon="87.449297"
+    <name>1007_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1008</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9107414" lon="87.498801"
+    <name>1008_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8978889" lon="87.450486"
+    <name>1008_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1009</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9138652" lon="87.517954"
+    <name>1009_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8962410" lon="87.451675"
+    <name>1009_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1010</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9122277" lon="87.519183"
+    <name>1010_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8945931" lon="87.452864"
+    <name>1010_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1011</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9105902" lon="87.520411"
+    <name>1011_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8929452" lon="87.454053"
+    <name>1011_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1012</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9089528" lon="87.521639"
+    <name>1012_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8912972" lon="87.455241"
+    <name>1012_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1013</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9073153" lon="87.522868"
+    <name>1013_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8896493" lon="87.456430"
+    <name>1013_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1014</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9056777" lon="87.524096"
+    <name>1014_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8880013" lon="87.457618"
+    <name>1014_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1015</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9040402" lon="87.525324"
+    <name>1015_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8863533" lon="87.458807"
+    <name>1015_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1016</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9024027" lon="87.526552"
+    <name>1016_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8847054" lon="87.459995"
+    <name>1016_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1017</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9007651" lon="87.527780"
+    <name>1017_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8830574" lon="87.461183"
+    <name>1017_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1018</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8991275" lon="87.529008"
+    <name>1018_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8814094" lon="87.462371"
+    <name>1018_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1019</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9037365" lon="87.553775"
+    <name>1019_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8797613" lon="87.463559"
+    <name>1019_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1020</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9020799" lon="87.554931"
+    <name>1020_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8781133" lon="87.464747"
+    <name>1020_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1021</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.9004233" lon="87.556087"
+    <name>1021_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8764653" lon="87.465935"
+    <name>1021_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1022</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8987666" lon="87.557243"
+    <name>1022_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8750474" lon="87.467987"
+    <name>1022_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1023</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8971100" lon="87.558399"
+    <name>1023_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8741203" lon="87.471883"
+    <name>1023_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1024</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8954533" lon="87.559555"
+    <name>1024_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8731930" lon="87.475778"
+    <name>1024_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1025</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8937967" lon="87.560710"
+    <name>1025_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8722656" lon="87.479673"
+    <name>1025_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1026</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8921400" lon="87.561866"
+    <name>1026_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8713380" lon="87.483567"
+    <name>1026_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1027</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8904833" lon="87.563021"
+    <name>1027_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8704104" lon="87.487462"
+    <name>1027_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1028</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8888266" lon="87.564177"
+    <name>1028_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8694826" lon="87.491357"
+    <name>1028_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1029</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8871699" lon="87.565332"
+    <name>1029_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8685546" lon="87.495251"
+    <name>1029_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1030</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8855131" lon="87.566487"
+    <name>1030_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8676266" lon="87.499145"
+    <name>1030_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1031</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8838564" lon="87.567643"
+    <name>1031_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8666984" lon="87.503039"
+    <name>1031_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1032</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8821996" lon="87.568798"
+    <name>1032_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8657701" lon="87.506933"
+    <name>1032_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1033</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8805429" lon="87.569953"
+    <name>1033_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8648417" lon="87.510826"
+    <name>1033_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1034</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8788861" lon="87.571108"
+    <name>1034_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8639131" lon="87.514720"
+    <name>1034_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1035</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8772293" lon="87.572262"
+    <name>1035_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8629844" lon="87.518613"
+    <name>1035_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1036</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8755725" lon="87.573417"
+    <name>1036_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8620556" lon="87.522506"
+    <name>1036_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1037</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8739157" lon="87.574572"
+    <name>1037_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8611267" lon="87.526399"
+    <name>1037_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1038</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8722589" lon="87.575726"
+    <name>1038_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8601976" lon="87.530292"
+    <name>1038_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1039</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8706020" lon="87.576881"
+    <name>1039_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8592684" lon="87.534185"
+    <name>1039_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>
+
+  <rte>
+    <name>1040</name>
+    <extensions>
+     <gpxx:RouteExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+     <gpxx:IsAutoNamed>false</gpxx:IsAutoNamed>
+     <gpxx:DisplayColor>Magenta</gpxx:DisplayColor>
+     </gpxx:RouteExtension>
+     </extensions>
+    <rtept  lat="52.8689452" lon="87.578035"
+    <name>1040_1</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+    <rtept  lat="52.8583391" lon="87.538077"
+    <name>1040_2</name>
+    <sym>Waypoint</sym>
+      <extensions>
+      <gpxx:RoutePointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+      <gpxx:Subclass>000000000000FFFFFFFF0000000002000000</gpxx:Subclass>
+      </gpxx:RoutePointExtension>
+      </extensions>
+    </rtept>
+  </rte>

@@ -1,0 +1,575 @@
+unit UMarkerOps;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, ExtCtrls, Buttons, StdCtrls, xpman, BasicMapObjects,
+  MapEditor, LangLoader;
+
+type
+  TMarkerOps = class(TForm)
+    MainPanel: TPanel;
+    RPanel: TPanel;
+    RouteMarks: TListBox;
+    RButtonsPanel: TPanel;
+    UpBtn: TSpeedButton;
+    LPanel: TPanel;
+    AllMarks: TListBox;
+    LButtonsPanel: TPanel;
+    SendBtn: TSpeedButton;
+    Splitter: TSplitter;
+    DelBtn: TSpeedButton;
+    BottomPanel: TPanel;
+    ButtonsPanel: TPanel;
+    OkButton: TButton;
+    CancelButton: TButton;
+    LTitlePanel: TPanel;
+    LTitle: TLabel;
+    RTitlePanel: TPanel;
+    RTitle: TLabel;
+    SpacerPanel: TPanel;
+    UpBtn2: TSpeedButton;
+    DownBtn2: TSpeedButton;
+    DownBtn: TSpeedButton;
+    SendAllBtn: TSpeedButton;
+    DelAllBtn: TSpeedButton;
+    procedure CancelButtonClick(Sender: TObject);
+    procedure RouteMarksClick(Sender: TObject);
+    procedure AllMarksClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+    procedure RefreshLists;
+    procedure SendBtnClick(Sender: TObject);
+    procedure DelBtnClick(Sender: TObject);
+    procedure UpBtnClick(Sender: TObject);
+    procedure SendAllBtnClick(Sender: TObject);
+    procedure UpBtn2Click(Sender: TObject);
+    procedure DownBtn2Click(Sender: TObject);
+    procedure DownBtnClick(Sender: TObject);
+    procedure AllMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure RouteMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
+    procedure DelAllBtnClick(Sender: TObject);
+    procedure OkButtonClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    isFrame :Boolean;
+    { Public declarations }
+  end;
+
+var
+  MarkerOps: TMarkerOps;
+  A, B : Array of Integer;
+
+  _Selected : Array of Integer;
+
+implementation
+
+uses UNamer;
+
+{$R *.dfm}
+
+
+procedure GetSelected(ListBox:TListBox);
+var I: Integer;
+begin
+  SetLength(_Selected, 0);
+  for I := 0 to ListBox.Count - 1 do
+     if ListBox.Selected[I] then
+        Begin
+          SetLength(_Selected, Length(_Selected)+1);
+          _Selected[Length(_Selected)-1] := I;
+        End;
+end;
+
+function FirstSel(ListBox:TListBox):integer;
+var I: Integer;
+begin
+  result := -1;
+  for I := 0 to ListBox.Count - 1 do
+     if ListBox.Selected[I] then
+        Begin
+          result := i;
+          break;
+        End;
+end;
+
+function LastSel(ListBox:TListBox):integer;
+var I: Integer;
+begin
+  result := -1;
+  for I := ListBox.Count - 1 downto 0 do
+     if ListBox.Selected[I] then
+        Begin
+          result := i;
+          break;
+        End;
+end;
+procedure TMarkerOps.AllMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  AllMarks.SetFocus;
+end;
+
+procedure TMarkerOps.CancelButtonClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TMarkerOps.RouteMarksClick(Sender: TObject);
+begin
+  UpBtn.Enabled    := FirstSel(RouteMarks) > 0;
+  UpBtn2.Enabled   := FirstSel(RouteMarks) > 0;
+
+  DownBtn.Enabled  := (LastSel(RouteMarks) >= 0) and
+      (LastSel(RouteMarks) < RouteMarks.Items.Count -1);
+  DownBtn2.Enabled := (LastSel(RouteMarks) >= 0) and
+      (LastSel(RouteMarks)< RouteMarks.Items.Count -1);
+
+  DelBtn.Enabled   := RouteMarks.SelCount > 0;
+
+
+  DelAllBtn.Enabled:= RouteMarks.Items.Count > 0;
+  OkButton.Enabled := RouteMarks.Items.Count > 0;
+end;
+
+procedure TMarkerOps.RouteMarksMouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+  RouteMarks.SetFocus;
+end;
+
+procedure TMarkerOps.AllMarksClick(Sender: TObject);
+begin
+  SendBtn.Enabled     := AllMarks.SelCount > 0;
+  SendAllBtn.Enabled  := AllMarks.Count > 0;
+end;
+
+procedure TMarkerOps.FormShow(Sender: TObject);
+var I:Integer;
+begin
+  SetLength(A, Length(Markers));
+  SetLength(B, 0);
+
+  For I := 0 To Length(Markers)-1 Do
+  Begin
+     A[I] := I;
+  End;
+
+  RefreshLists;
+
+end;
+
+
+
+procedure TMarkerOps.OkButtonClick(Sender: TObject);
+
+  procedure FrameFromMarkers;
+  var I: Integer;
+  begin
+     if length(B) > 1 then
+       FrameCount := Length(B)+1
+         else
+           FrameCount := 0;
+
+     Frame := FrameCount > 0;
+
+     FrameGeo := true;
+
+     if  Length(B) >= 1 then
+     for I := 0 to Length(B) - 1 do
+     begin
+        FramePoints [I, 2].x := Markers[B[I]].gx;
+        FramePoints [I, 2].y := Markers[B[I]].gy;
+     end;
+
+     FramePoints [FrameCount-1, 2].x := Markers[B[0]].gx;
+     FramePoints [FrameCount-1, 2].y := Markers[B[0]].gy;
+    
+     RoutesToGeo;
+     RecomputeRoutes(False);
+  end;
+
+
+  procedure RouteFromMarkers(RName:String);
+  var I: Integer;
+  Begin
+
+     if  Length(B) >= 1 then
+     begin
+        AddRoute(RName);
+        Route[RouteCount-1].Geo  := false;
+        Route[RouteCount-1].Status := 0;
+
+        SetLength(Route[RouteCount-1].WPT,  Length(B));
+        SetLength(Route[RouteCount-1].GWPT, Length(B));
+
+        for I := 0 to Length(B) - 1 do
+        Begin
+
+           Route[RouteCount-1].GWPT[i].x := Markers[B[I]].Gx;
+           Route[RouteCount-1].GWPT[i].y := Markers[B[I]].Gy;
+
+           Route[RouteCount-1].WPT[i].x := Markers[B[I]].x;
+           Route[RouteCount-1].WPT[i].y := Markers[B[I]].y;
+
+           if I = 0 then
+           begin
+             Route[RouteCount-1].x1  := Markers[B[I]].x;
+             Route[RouteCount-1].y1  := Markers[B[I]].y;
+             Route[RouteCount-1].Gx1 := Markers[B[I]].Gx;
+             Route[RouteCount-1].Gy1 := Markers[B[I]].Gy;
+           end;
+
+           if I = Length(Markers) - 1  then
+           begin
+             Route[RouteCount-1].x2  := Markers[B[I]].x;
+             Route[RouteCount-1].y2  := Markers[B[I]].y;
+             Route[RouteCount-1].Gx2 := Markers[B[I]].Gx;
+             Route[RouteCount-1].Gy2 := Markers[B[I]].Gy;
+           end;
+
+        End;
+     end;
+     RoutesToGeo;
+     RecomputeRoutes(False);
+  End;
+
+
+begin
+
+
+  case isFrame of
+
+    true: FrameFromMarkers;
+
+    false:
+    begin
+       Namer.Edit1.Text := Inf[28];
+       Namer.ShowModal;
+
+       if not Namer.isOk then
+         exit;
+
+       RouteFromMarkers(Namer.Edit1.Text);
+    end;
+
+  end;
+  
+  close;
+end;
+
+procedure TMarkerOps.RefreshLists;
+var I, J :Integer;
+begin
+
+  J:= AllMarks.ItemIndex;
+  AllMarks.Clear;
+  For I := 0 to Length(A)-1 do
+  Begin
+    AllMarks.Items.Add(Markers[A[I]].MarkerName);
+  End;
+  AllMarks.ItemIndex:= J;
+
+  J:= RouteMarks.ItemIndex;
+  RouteMarks.Clear;
+  For I := 0 to Length(B)-1 do
+  Begin
+    RouteMarks.Items.Add(Markers[B[I]].MarkerName);
+  End;
+  RouteMarks.ItemIndex := J;
+
+  AllMarks.OnClick(nil);
+  RouteMarks.OnClick(nil);
+
+  {NMEdit.Text := Inf[...]}
+end;
+
+procedure TMarkerOps.SendBtnClick(Sender: TObject);
+
+ procedure DelFromA(N:Integer);
+ var I: Integer;
+ begin
+   For I := N To Length(A) -2 Do
+     A[I] := A[I+1];
+
+   SetLength(A, Length(A) -1);
+ end;
+
+var I, J, n: Integer;
+begin
+  if AllMarks.SelCount <= 0 then
+     exit;
+
+  GetSelected(AllMarks);
+
+  for n := Length(_Selected) - 1 downto 0 do
+  begin
+    I := _Selected[n];
+
+    J := Length(B);
+    SetLength(B, J + 1);
+
+    B[J] := A[I];
+
+    DelFromA(I);
+  end;
+
+  RefreshLists;
+
+  if _Selected[0] > 0 then
+  Begin
+       AllMarks.ItemIndex := _Selected[0] -1;
+       AllMarks.Selected[_Selected[0] -1] := True;
+  End else
+  if _Selected[0] = 0 then
+    if AllMarks.Count > 0 then
+      AllMarks.Selected[0] := True;
+
+   AllMarks.onClick(nil);
+end;
+
+procedure TMarkerOps.DelAllBtnClick(Sender: TObject);
+
+ procedure DelFromB(N:Integer);
+ var I: Integer;
+ begin
+   For I := N To Length(B) -2 Do
+     B[I] := B[I+1];
+
+   SetLength(B, Length(B) -1);
+ end;
+
+ var J:integer;
+begin
+
+  while Length(B) > 0 do
+  begin
+
+    J := Length(A);
+    SetLength(A, J +1);
+
+    A[J] := B[0];
+
+    DelFromB(0);
+
+  end;
+
+   RefreshLists;
+end;
+
+procedure TMarkerOps.DelBtnClick(Sender: TObject);
+ procedure DelFromB(N:Integer);
+ var I: Integer;
+ begin
+   For I := N To Length(B) -2 Do
+     B[I] := B[I+1];
+
+   SetLength(B, Length(B) -1);
+ end;
+
+var I, J: Integer;
+begin
+  //I := RouteMarks.ItemIndex;
+
+  //if I = -1 then
+    // exit;
+
+  GetSelected(RouteMarks);
+  for I := Length(_Selected) - 1 downto 0 do
+  begin
+
+    J := Length(A);
+    SetLength(A, J +1);
+
+    A[J] := B[_Selected[I]];
+
+    DelFromB(_Selected[I]);
+  end;
+  //if RouteMarks.ItemIndex > 0 then
+  //   RouteMarks.ItemIndex := RouteMarks.ItemIndex -1;
+
+  RefreshLists;
+
+  if _Selected[0] > 0 then
+  Begin
+       RouteMarks.ItemIndex := _Selected[0] -1;
+       RouteMarks.Selected[_Selected[0] -1] := True;
+  End else
+  if _Selected[0] = 0 then
+    if RouteMarks.Count > 0 then
+      RouteMarks.Selected[0] := True;
+
+  RouteMarks.onClick(nil);
+end;
+
+procedure TMarkerOps.UpBtnClick(Sender: TObject);
+var I, J :Integer;
+begin
+  //I := RouteMarks.ItemIndex;
+
+  //if I <= 0 then
+  //   exit;
+
+  GetSelected(RouteMarks);
+
+  if _Selected[0] > 0 then
+  for I := 0 to Length(_Selected) - 1 do
+  begin
+    J := B[_Selected[I]-1];
+
+    B[_Selected[I]-1] := B[_Selected[I]];
+    B[_Selected[I]]   := J;
+
+    _Selected[I] := _Selected[I]-1;
+  end;
+
+  RefreshLists;
+
+  for I := 0 to Length(_Selected) - 1 do
+     RouteMarks.Selected[_Selected[I]] := True;
+
+  RouteMarks.OnClick(nil);
+end;
+
+procedure TMarkerOps.SendAllBtnClick(Sender: TObject);
+var I, J, K: Integer;
+begin
+  I := length(A);
+
+  if I = -1 then
+     exit;
+
+  J := Length(B);
+  SetLength(B, J + I);
+
+  for K := 0 To I-1 Do
+    B[J + K] := A[K];
+
+  SetLength(A, 0);
+
+  RefreshLists;
+end;
+
+procedure TMarkerOps.UpBtn2Click(Sender: TObject);
+var I, J, K :Integer;
+begin
+{  I := RouteMarks.ItemIndex;
+
+  if I < 0 then exit;
+
+  K := B[I];
+  For J := I DownTo 1 Do
+  begin
+    B[J] := B[J-1];
+  end;
+
+  B[0] :=  K;
+
+  RouteMarks.ItemIndex := 0;
+
+  RefreshLists;  }
+  GetSelected(RoutesMarks);
+
+  while _Selected[0] > 0 do
+  for I := Length(_Selected) - 1 downto 0 do
+  begin
+    J := B[_Selected[I]-1];
+
+    B[_Selected[I]-1] := B[_Selected[I]];
+    B[_Selected[I]]   := J;
+
+    _Selected[I] := _Selected[I] - 1;
+  end;
+
+  RefreshLists;
+
+  for I := 0 to Length(_Selected) - 1 do
+     RouteMarks.Selected[_Selected[I]] := True;
+
+  RouteMarks.OnClick(nil);
+end;
+
+procedure TMarkerOps.DownBtn2Click(Sender: TObject);
+var I, J, K :Integer;
+begin
+{  I := RouteMarks.ItemIndex;
+
+  if I < 0 then exit;
+
+  K := B[I];
+  For J := I To Length(B)-2 Do
+  begin
+    B[J] := B[J+1];
+  end;
+
+  B[ Length(B)-1 ] :=  K;
+
+  RouteMarks.ItemIndex := Length(B)-1;
+
+  RefreshLists;}
+  
+  GetSelected(RoutesMarks);
+
+  while _Selected[Length(_Selected) - 1] < RouteMarks.Count-1 do
+  for I := Length(_Selected) - 1 downto 0 do
+  begin
+    J := B[_Selected[I]+1];
+
+    B[_Selected[I]+1] := B[_Selected[I]];
+    B[_Selected[I]]   := J;
+
+    _Selected[I] := _Selected[I]+1;
+  end;
+
+  RefreshLists;
+
+  for I := 0 to Length(_Selected) - 1 do
+     RouteMarks.Selected[_Selected[I]] := True;
+
+  RouteMarks.OnClick(nil);
+
+end;
+
+procedure TMarkerOps.DownBtnClick(Sender: TObject);
+var I, J :Integer;
+begin
+{  I := RouteMarks.ItemIndex;
+
+  if (I < 0) or (I >= Length(B)-1) then
+     exit;
+
+  J := B[I+1];
+
+  B[I+1] := B[I];
+  B[I]   := J;
+
+  RouteMarks.ItemIndex := RouteMarks.ItemIndex +1;
+
+  RefreshLists;   }
+
+  GetSelected(RouteMarks);
+
+  if _Selected[Length(_Selected) - 1] < RouteMarks.Count-1 then
+  for I := Length(_Selected) - 1 downto 0 do
+  begin
+    J := B[_Selected[I]+1];
+
+    B[_Selected[I]+1] := B[_Selected[I]];
+    B[_Selected[I]]   := J;
+
+    _Selected[I] := _Selected[I]+1;
+  end;
+
+  RefreshLists;
+
+  for I := 0 to Length(_Selected) - 1 do
+     RouteMarks.Selected[_Selected[I]] := True;
+
+  RouteMarks.OnClick(nil);
+end;
+
+end.

@@ -1,0 +1,134 @@
+object Fknotgrouprenum: TFknotgrouprenum
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Fknotgrouprenum'
+  ClientHeight = 168
+  ClientWidth = 426
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 49
+    Height = 13
+    Caption = #1044#1077#1081#1089#1090#1074#1080#1077
+  end
+  object Button1: TButton
+    Left = 120
+    Top = 135
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    TabOrder = 0
+  end
+  object Button2: TButton
+    Left = 208
+    Top = 135
+    Width = 75
+    Height = 25
+    Caption = #1054#1090#1084#1077#1085#1072
+    TabOrder = 1
+  end
+  object KindA: TComboBox
+    Left = 8
+    Top = 27
+    Width = 169
+    Height = 22
+    Style = csOwnerDrawFixed
+    ItemHeight = 16
+    ItemIndex = 0
+    TabOrder = 2
+    Text = #1044#1086#1073#1072#1074#1080#1090#1100' '#1095#1080#1089#1083#1086
+    OnChange = KindAChange
+    Items.Strings = (
+      #1044#1086#1073#1072#1074#1080#1090#1100' '#1095#1080#1089#1083#1086
+      #1055#1077#1088#1077#1085#1091#1084#1077#1088#1086#1074#1072#1090#1100)
+  end
+  object RadioGroup1: TRadioGroup
+    Left = 8
+    Top = 57
+    Width = 169
+    Height = 64
+    Caption = #1055#1088#1080#1084#1077#1085#1080#1090#1100
+    Items.Strings = (
+      #1050' '#1074#1099#1076#1077#1083#1077#1085#1085#1099#1084' '#1087#1077#1090#1083#1103#1084
+      #1050#1086' '#1074#1089#1077#1084' '#1087#1077#1090#1083#1103#1084)
+    TabOrder = 3
+  end
+  object GroupBox1: TGroupBox
+    Left = 192
+    Top = 8
+    Width = 226
+    Height = 113
+    Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099
+    TabOrder = 4
+    object RPC: TPageControl
+      Left = 6
+      Top = 16
+      Width = 215
+      Height = 90
+      ActivePage = TabSheet2
+      Style = tsFlatButtons
+      TabOrder = 0
+      object TabSheet1: TTabSheet
+        Caption = 'TabSheet1'
+        TabVisible = False
+        ExplicitLeft = 16
+        ExplicitTop = 26
+        ExplicitWidth = 218
+        ExplicitHeight = 111
+        object Label2: TLabel
+          Left = 3
+          Top = -2
+          Width = 105
+          Height = 13
+          Caption = #1044#1086#1073#1072#1074#1080#1090#1100'/'#1086#1090#1085#1103#1090#1100':'
+        end
+        object SpinEdit1: TSpinEdit
+          Left = 3
+          Top = 18
+          Width = 60
+          Height = 22
+          MaxValue = 1000000
+          MinValue = -1000000
+          TabOrder = 0
+          Value = 1
+        end
+      end
+      object TabSheet2: TTabSheet
+        Caption = 'TabSheet2'
+        ImageIndex = 1
+        TabVisible = False
+        ExplicitWidth = 218
+        ExplicitHeight = 111
+        object Label3: TLabel
+          Left = 5
+          Top = 1
+          Width = 38
+          Height = 13
+          Alignment = taRightJustify
+          Caption = #1064#1072#1075', '#1084':'
+        end
+        object AddL: TSpinEdit
+          Left = 5
+          Top = 17
+          Width = 112
+          Height = 22
+          MaxValue = 100000
+          MinValue = 1
+          TabOrder = 0
+          Value = 500
+        end
+      end
+    end
+  end
+end

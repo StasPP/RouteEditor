@@ -1,0 +1,69 @@
+unit UsaveKnots;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, MapEditor, GeoFunctions, GeoClasses, ExtCtrls,
+  UExportKnots, BasicMapObjects;
+
+type
+  TFSaveKnots = class(TForm)
+    GroupBox1: TGroupBox;
+    doP: TCheckBox;
+    doK: TCheckBox;
+    doC: TCheckBox;
+    Button1: TButton;
+    Button2: TButton;
+    DoExp: TCheckBox;
+    DelOld: TRadioGroup;
+    Exp: TButton;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure ExpClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FSaveKnots: TFSaveKnots;
+
+implementation
+
+uses MapperFm;
+
+{$R *.dfm}
+
+procedure TFSaveKnots.Button1Click(Sender: TObject);
+var I:Integer;
+begin
+  close;
+  I := Length(Markers);
+  KnotsToMarkers(doP.Checked, doK.Checked, doC.Checked);
+  if DelOld.ItemIndex = 0 then
+     SetLength(Markers, 0);
+
+
+  if DoExp.Checked then
+  begin
+    FExportKnots.NewFrom := I;
+    FExportKnots.ShowModal;
+  end;
+
+  MapFm.SaveCtrlZ;
+  MapFm.B31.Click;
+end;
+
+procedure TFSaveKnots.Button2Click(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TFSaveKnots.ExpClick(Sender: TObject);
+begin
+ FExportKnots.ShowModal;
+end;
+
+end.

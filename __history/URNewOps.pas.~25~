@@ -1,0 +1,273 @@
+unit URNewOps;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Spin, MapperFM, ComCtrls, ExtCtrls, FloatSpinEdit, LangLoader;
+
+type
+  TRouteOps = class(TForm)
+    RouteBox: TComboBox;
+    RouteNLabel3: TLabel;
+    OkButton1: TButton;
+    CancelButton1: TButton;
+    RPC: TPageControl;
+    TabSheet1: TTabSheet;
+    TabSheet2: TTabSheet;
+    Edit1: TEdit;
+    CheckBox1: TCheckBox;
+    Label1: TLabel;
+    BrkStep_: TSpinEdit;
+    Edit2: TEdit;
+    Label2: TLabel;
+    TabSheet3: TTabSheet;
+    OrtStep1_: TSpinEdit;
+    Label3: TLabel;
+    OrtName: TEdit;
+    Label5: TLabel;
+    Panel1: TPanel;
+    Label4: TLabel;
+    OrtSep: TEdit;
+    Label6: TLabel;
+    OrtStep_: TSpinEdit;
+    Do1ort: TRadioButton;
+    DoSeveral: TRadioButton;
+    Label7: TLabel;
+    OrtStartN: TSpinEdit;
+    Panel2: TPanel;
+    OrtL_: TSpinEdit;
+    Label8: TLabel;
+    OrtR_: TSpinEdit;
+    DoM: TCheckBox;
+    MNamesBox: TGroupBox;
+    MNames: TComboBox;
+    MSep: TEdit;
+    MSepL: TLabel;
+    MNFrom_: TSpinEdit;
+    MNStep_: TSpinEdit;
+    DelM: TCheckBox;
+    MNFromL: TLabel;
+    MNStepL: TLabel;
+    procedure OkButton1Click(Sender: TObject);
+    procedure CancelButton1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure RouteBoxChange(Sender: TObject);
+    procedure Do1ortClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure DoMClick(Sender: TObject);
+    procedure MNamesChange(Sender: TObject);
+    procedure BrkStep_Change(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    isROk: Boolean;
+    isShowSpin : byte;
+    { Public declarations }
+  end;
+
+var
+  RouteOps: TRouteOps;
+  OrtR, OrtL, OrtStep1, OrtStep, BrkStep, MNFrom, MNStep :TFloatSpinEdit;
+implementation
+
+{$R *.dfm}
+
+procedure TRouteOps.BrkStep_Change(Sender: TObject);
+begin
+ if MNStep = nil then
+       exit;
+ if abs(NMStep) > 1 then
+   if MNStep.Value > 0 then
+     MNStep.Value := BrkStep.Value;
+   if MNStep.Value < 0 then
+     MNStep.Value := -BrkStep.Value;
+end;
+
+procedure TRouteOps.CancelButton1Click(Sender: TObject);
+begin
+  isROk := False;
+  close;
+end;
+
+procedure TRouteOps.Do1ortClick(Sender: TObject);
+begin
+  Panel1.Visible := DoSeveral.Checked;
+  if DoSeveral.Checked then
+    OrtStep1.Value := 0
+  else
+    if OrtStep1.Value = 0 then
+      OrtStep1.Value := OrtStep.Value;
+end;
+
+procedure TRouteOps.DoMClick(Sender: TObject);
+begin
+  MNamesBox.Enabled := DoM.Visible;
+  DelM.Enabled := DoM.Checked;
+end;
+
+procedure TRouteOps.FormCreate(Sender: TObject);
+begin
+
+ BrkStep := TFloatSpinEdit.Create(RouteOps);
+ OrtL  := TFloatSpinEdit.Create(RouteOps);
+ OrtR  := TFloatSpinEdit.Create(RouteOps);
+ OrtStep := TFloatSpinEdit.Create(RouteOps);
+ OrtStep1 := TFloatSpinEdit.Create(RouteOps);
+
+ MNStep := TFloatSpinEdit.Create(RouteOps);
+ MNFrom := TFloatSpinEdit.Create(RouteOps);
+
+ BrkStep.Parent  := BrkStep_.Parent;
+ BrkStep.OnClick := BrkStep_.OnClick;
+ BrkStep.OnChange := BrkStep_.OnChange;
+ BrkStep.Left := BrkStep_.Left;
+ BrkStep.Top := BrkStep_.Top;
+ BrkStep.Width := BrkStep_.Width;
+ BrkStep.Height := BrkStep_.Height;
+ BrkStep.Value := BrkStep_.Value;
+ BrkStep.MinValue := BrkStep_.MinValue;
+ BrkStep.MaxValue := BrkStep_.MaxValue;
+ BrkStep.Increment := BrkStep_.Increment;
+ BrkStep_.Hide;
+
+ OrtL.Parent  := OrtL_.Parent;
+ OrtL.OnClick := OrtL_.OnClick;
+ OrtL.OnChange := OrtL_.OnChange;
+ OrtL.Left := OrtL_.Left;
+ OrtL.Top := OrtL_.Top;
+ OrtL.Width := OrtL_.Width;
+ OrtL.Height := OrtL_.Height;
+ OrtL.Value := OrtL_.Value;
+ OrtL.MinValue := OrtL_.MinValue;
+ OrtL.MaxValue := OrtL_.MaxValue;
+ OrtL.Increment := OrtL_.Increment;
+ OrtL_.Hide;
+
+ OrtR.Parent  := OrtR_.Parent;
+ OrtR.OnClick := OrtR_.OnClick;
+ OrtR.OnChange := OrtR_.OnChange;
+ OrtR.Left := OrtR_.Left;
+ OrtR.Top := OrtR_.Top;
+ OrtR.Width := OrtR_.Width;
+ OrtR.Height := OrtR_.Height;
+ OrtR.Value := OrtR_.Value;
+ OrtR.MinValue := OrtR_.MinValue;
+ OrtR.MaxValue := OrtR_.MaxValue;
+ OrtR.Increment := OrtR_.Increment;
+ OrtR_.Hide;
+
+ OrtStep.Parent  := OrtStep_.Parent;
+ OrtStep.OnClick := OrtStep_.OnClick;
+ OrtStep.OnChange := OrtStep_.OnChange;
+ OrtStep.Left := OrtStep_.Left;
+ OrtStep.Top := OrtStep_.Top;
+ OrtStep.Width := OrtStep_.Width;
+ OrtStep.Height := OrtStep_.Height;
+ OrtStep.Value := OrtStep_.Value;
+ OrtStep.MinValue := OrtStep_.MinValue;
+ OrtStep.MaxValue := OrtStep_.MaxValue;
+ OrtStep.Increment := OrtStep_.Increment;
+ OrtStep_.Hide;
+
+ OrtStep1.Parent  := OrtStep1_.Parent;
+ OrtStep1.OnClick := OrtStep1_.OnClick;
+ OrtStep1.OnChange := OrtStep1_.OnChange;
+ OrtStep1.Left := OrtStep1_.Left;
+ OrtStep1.Top := OrtStep1_.Top;
+ OrtStep1.Width := OrtStep1_.Width;
+ OrtStep1.Height := OrtStep1_.Height;
+ OrtStep1.Value := OrtStep1_.Value;
+ OrtStep1.MinValue := OrtStep1_.MinValue;
+ OrtStep1.MaxValue := OrtStep1_.MaxValue;
+ OrtStep1.Increment := OrtStep1_.Increment;
+ OrtStep1_.Hide;
+
+ MNFrom.Parent  := MNFrom_.Parent;
+ MNFrom.OnClick := MNFrom_.OnClick;
+ MNFrom.OnChange := MNFrom_.OnChange;
+ MNFrom.Left := MNFrom_.Left;
+ MNFrom.Top := MNFrom_.Top;
+ MNFrom.Width := MNFrom_.Width;
+ MNFrom.Height := MNFrom_.Height;
+ MNFrom.Value := MNFrom_.Value;
+ MNFrom.MinValue := MNFrom_.MinValue;
+ MNFrom.MaxValue := MNFrom_.MaxValue;
+ MNFrom.Increment := MNFrom_.Increment;
+ MNFrom_.Hide;
+
+ MNStep.Parent  := MNStep_.Parent;
+ MNStep.OnClick := MNStep_.OnClick;
+ MNStep.OnChange := MNStep_.OnChange;
+ MNStep.Left := MNStep_.Left;
+ MNStep.Top := MNStep_.Top;
+ MNStep.Width := MNStep_.Width;
+ MNStep.Height := MNStep_.Height;
+ MNStep.Value := MNStep_.Value;
+ MNStep.MinValue := MNStep_.MinValue;
+ MNStep.MaxValue := MNStep_.MaxValue;
+ MNStep.Increment := MNStep_.Increment;
+ MNStep_.Hide;
+end;
+
+
+procedure TRouteOps.FormDestroy(Sender: TObject);
+begin
+  OrtR.Destroy; OrtL.Destroy; OrtStep1.Destroy;
+  OrtStep.Destroy; BrkStep.Destroy;
+end;
+
+procedure TRouteOps.FormShow(Sender: TObject);
+var I:Integer;
+begin
+  isROk := False;
+  MapFm.RefreshRouteBox;
+  I :=  RouteBox.ItemIndex;
+  RouteBox.Items := MapFm.RouteBox.Items;
+
+  if I = -1 then
+     I := 0;
+  RouteBox.ItemIndex := I;
+
+  RPC.ActivePageIndex := isShowSpin;
+
+  CheckBox1.Enabled := RouteBox.ItemIndex > 0;
+  Edit1.Enabled := RouteBox.ItemIndex > 0;
+
+  I :=  MNames.ItemIndex;
+  MNames.Items[0] := Inf[202];
+  MNames.Items[1] := Inf[203];
+  MNames.Items[2] := Inf[204];
+  MNames.ItemIndex := I;
+end;
+
+procedure TRouteOps.MNamesChange(Sender: TObject);
+begin
+ if MNStep <> nil then
+    MNstep.Visible := MNames.ItemIndex <= 1;
+ if MNFrom <> nil then
+    MNFrom.Visible := MNames.ItemIndex <= 1;
+
+ MNstepL.Visible := MNames.ItemIndex <= 1;
+ MNFromL.Visible := MNames.ItemIndex <= 1;
+ MSep.Visible    := MNames.ItemIndex <= 1;
+ MSepL.Visible   := MNames.ItemIndex <= 1;
+ 
+ if MSepL.Visible then
+    MSepL.Caption   := Inf[205 + MNames.ItemIndex]
+end;
+
+procedure TRouteOps.OkButton1Click(Sender: TObject);
+begin
+  isROk := True;
+  close;
+end;
+
+procedure TRouteOps.RouteBoxChange(Sender: TObject);
+begin
+  CheckBox1.Enabled := RouteBox.ItemIndex > 0;
+  Edit1.Enabled := RouteBox.ItemIndex > 0;
+end;
+
+end.

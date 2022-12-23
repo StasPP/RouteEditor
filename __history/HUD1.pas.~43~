@@ -1,0 +1,366 @@
+unit HUD1;
+
+interface
+
+uses MapFunctions, GeoFunctions, TabFunctions, Vectors2, Classes, DrawFunctions,
+     AbstractCanvas, AbstractDevices, AsphyreImages, AsphyreTypes, AsphyreFonts,
+     RTypes, SysUtils, Graphics, Windows, LangLoader, TrackFunctions;
+
+procedure ScaleLine(AsphCanvas:TAsphyreCanvas;
+      Msign, KmSign:String; FontN:Integer; IntColor, FntColor: Cardinal);
+
+procedure NordDirection(AsphCanvas:TAsphyreCanvas; BigSize, isRight: Boolean;
+      Msign, KmSign:String; FontN:Integer; IntColor, FntColor: Cardinal;
+      ArrowKind: Byte; Always: Boolean);
+
+procedure TrackScale(AsphCanvas:TAsphyreCanvas;
+        FontN:Integer; IntColor, FntColor: Cardinal);
+
+var
+  NDAlpha: real = 0;
+
+implementation
+
+procedure ScaleLine(AsphCanvas:TAsphyreCanvas;
+      Msign, KmSign:String; FontN:Integer; IntColor, FntColor: Cardinal);
+
+   procedure DoSpecialScale;
+   var
+      s :String;
+      w :integer;
+      X1, X2 :integer;
+   begin
+      w := 100;
+      X1 := DispSize.X-20 - w;
+      X2 := DispSize.X;
+      AsphCanvas.FillRect(RECT( X1, DispSize.Y - 30, X2, DispSize.Y), IntColor);
+
+      FatLine(AsphCanvas, X1 + 10, DispSize.Y - 10, X1 + 10, DispSize.Y - 5, 0,
+           false, false, FntColor);
+
+      FatLine(AsphCanvas, X2 - 10, DispSize.Y - 10, X2 - 10, DispSize.Y - 5, 0,
+           false, false, FntColor);
+
+      FatLine(AsphCanvas, X1 + 10, DispSize.Y - 5, X2 - 10, DispSize.Y - 5, 0, false,
+           false, FntColor);
+
+      if Scale >=100 then
+          s := IntTostr(Trunc(Scale)div 10) + KMsign
+      else if Scale >=10 then
+          s := Format('%n',[Scale/10])  + KMsign
+      else if Scale >= 0.1 then
+          s := IntTostr(Trunc(Scale*100) ) + Msign
+      else
+          s := Format('%n',[Scale*100]) + Msign;
+
+    w := trunc((X2-X1)/2 - AsphFonts[FontN].TextWidth(s)/2);
+
+    AsphFonts[Font0].TextOut( Point2(X1 + w, DispSize.Y - 25),
+                              s, {clWhite2} cColor2(FntColor), 1.0);
+   end;
+
+var
+    s :String;
+    w :integer;
+    X1, X2 :integer;
+begin
+    if Scale=0 then
+         exit;
+
+    if SpecialScale then
+    begin
+      DoSpecialScale;
+      exit;
+    end;
+
+    w := trunc(TMashtab[Mashtab]/Scale);
+
+    X1 := DispSize.X-20 - w;
+    X2 := DispSize.X;
+
+    AsphCanvas.FillRect(RECT( X1, DispSize.Y - 30, X2, DispSize.Y), IntColor);
+
+    FatLine(AsphCanvas, X1 + 10, DispSize.Y - 10, X1 + 10, DispSize.Y - 5, 0,
+           false, false, FntColor);
+
+    FatLine(AsphCanvas, X2 - 10, DispSize.Y - 10, X2 - 10, DispSize.Y - 5, 0,
+           false, false, FntColor);
+
+    FatLine(AsphCanvas, X1 + 10, DispSize.Y - 5, X2 - 10, DispSize.Y - 5, 0, false,
+           false, FntColor);
+
+
+    if TMashtab[Mashtab]<1000 then
+      s := IntTostr(TMashtab[Mashtab]) + Msign
+        else
+          s := IntTostr(TMashtab[Mashtab] div 1000) + KMsign;
+
+    w := trunc((X2-X1)/2 - AsphFonts[FontN].TextWidth(s)/2) ;
+
+    AsphFonts[Font0].TextOut( Point2(X1 + w, DispSize.Y - 25),
+                              s, {clWhite2} cColor2(FntColor), 1.0);
+
+end;
+
+procedure TrackScale(AsphCanvas:TAsphyreCanvas;
+        FontN:Integer; IntColor, FntColor: Cardinal);
+
+var X1, X2, Y1, Y2, Yi, Yi2, step, lastY, sW :integer;
+
+  function MarkSt(D:Double):String;
+  begin
+     case TrackColorSch.isRound of
+       true:   result := IntToStr(round(D));
+       false:  result := Format('%n',[D]);
+     end;
+     sW := trunc(AsphFonts[Font0].TextWidth(result));
+  end;
+
+  procedure PutMark(Y:Double);
+  var iY: Double;
+      St: String;
+  begin
+    St := MarkSt(Y);
+
+    if DispSize.X - 28 - sW - 5 < X1 then
+    begin
+      AsphCanvas.FillRect(RECT( DispSize.X - 28 - sW - 5, Y1 + 20, X1, Y2), IntColor);
+      X1 := DispSize.X - 28 - sW - 5;
+    end;
+
+    if Y = TrackColorSch.min then
+    BEGIN
+      lastY := Y1 + 36;
+      AsphFonts[Font0].TextOut( Point2(DispSize.X - 28 - sW,  Y1 + 24),
+                                 St, cColor2(FntColor), 1.0);
+
+
+    END ELSE
+    if Y = TrackColorSch.max then
+    BEGIN
+
+      AsphFonts[Font0].TextOut( Point2(DispSize.X - 28 - sW,  Y2 - 16),
+                                 St, cColor2(FntColor), 1.0);
+
+
+    END ELSE
+    BEGIN
+      if (Y < TrackColorSch.min ) or (Y > TrackColorSch.max ) then
+         exit;
+
+      iY := (Y - TrackColorSch.min) / (TrackColorSch.max - TrackColorSch.min);
+      iY := Y1 + 30 + iY*(Y2 - Y1 - 40);
+
+      AsphCanvas.Line(DispSize.X - 23, trunc(iY), DispSize.X - 17, trunc(iY), clWhite1);
+
+      if (iY - 6> lastY) and (iY + 6 <  Y2 - 26) then
+      begin
+         AsphFonts[Font0].TextOut( Point2(DispSize.X - 28 - sW,  trunc(iY) - 6),
+                                 St, cColor2(FntColor), 1.0);
+         lastY := trunc(iY) + 6;
+      end;
+    END;
+
+  end;
+
+
+var
+    I, j, wX, wY, N, maxN, Nrows, Nst   :integer;
+    jm, jmm :Double;  s1, s2 :string;
+    Col :TColor4;
+begin
+  if TrackColorSch.min = TrackColorSch.max then
+    exit;
+
+   if NDAlpha <= 0 then
+     Y1 := 10
+   else
+     Y1 := 90;
+
+
+   IF TrackColorSch.isSmooth THEN
+   BEGIN
+      Y2 := DispSize.Y - 34;
+      case TrackColorSch.isRound of
+        true:    X1 := DispSize.X - 40;
+        false:   X1 := DispSize.X - 50;
+      end;
+
+
+      sW := AsphFonts[Font0].TexWidth(inf[240+TrackColorSch.Kind]);
+      AsphCanvas.FillRect(RECT( DispSize.X - 10 -sW, Y1-5 , DispSize.X, Y1+15), IntColor);
+      AsphFonts[Font0].TextOut( Point2(DispSize.X - sW -5,  Y1-2),
+                                 inf[240+TrackColorSch.Kind], cColor2(FntColor), 1.0);
+
+      AsphCanvas.FillRect(RECT( X1, Y1 + 20, DispSize.X, Y2), IntColor);
+      step := 3;
+      for I := 0 to (Y2 - Y1 - 40) div step  do
+      begin
+        jm :=  TrackColorSch.min +
+            ( step*(I)/(Y2 - Y1 - 40) ) *
+            (TrackColorSch.max - TrackColorSch.min);
+
+        Col := ClBlack4;
+
+        for N := 1 to TrackColorSch.CSMarkCount - 1 do
+          if (jm >= TrackColorSch.CSMarks[N-1].Mark) and
+             (jm <= TrackColorSch.CSMarks[N].Mark) then
+          begin
+            if TrackColorSch.isSmooth = false then
+               Col := CRGB4(trunc( TrackColorSch.CSMarks[N - 1].R),
+                    trunc( TrackColorSch.CSMarks[N - 1].G),
+                    trunc( TrackColorSch.CSMarks[N - 1].B),
+                    255)
+            else
+            begin
+              jmm := (jm - TrackColorSch.CSMarks[N-1].Mark) /
+                (TrackColorSch.CSMarks[N].Mark - TrackColorSch.CSMarks[N-1].Mark);
+
+              Col := CRGB4(trunc( TrackColorSch.CSMarks[N-1].R  + jmm*
+                    (TrackColorSch.CSMarks[N].R - TrackColorSch.CSMarks[N-1].R) ),
+                    trunc( TrackColorSch.CSMarks[N-1].G  + jmm*
+                    (TrackColorSch.CSMarks[N].G - TrackColorSch.CSMarks[N-1].G) ),
+                    trunc( TrackColorSch.CSMarks[N-1].B  + jmm*
+                    (TrackColorSch.CSMarks[N].B - TrackColorSch.CSMarks[N-1].B) ),
+                    255);
+            end;
+          end;
+
+          if jm >= TrackColorSch.CSMarks[TrackColorSch.CSMarkCount - 1].Mark then
+            Col := CRGB4(trunc( TrackColorSch.CSMarks[TrackColorSch.CSMarkCount - 1].R),
+                    trunc( TrackColorSch.CSMarks[TrackColorSch.CSMarkCount - 1].G),
+                    trunc( TrackColorSch.CSMarks[TrackColorSch.CSMarkCount - 1].B),
+                    255);
+
+          YI  := Y1 + 30 + step*I;
+          YI2 := Y1 + 30 + step*(I + 1);
+          if YI2 > Y2 - 10 then
+            YI2 := Y2 - 10;
+
+          AsphCanvas.FillRect(RECT(DispSize.X - 20, YI,
+                              DispSize.X - 10, YI2),
+                              Col);
+      end;
+
+      AsphCanvas.Line(DispSize.X - 20, Y1+30, DispSize.X - 20, Y2 - 10, FntColor);
+      AsphCanvas.Line(DispSize.X - 10, Y1+30, DispSize.X - 10, Y2 - 10, FntColor);
+      AsphCanvas.Line(DispSize.X - 23, Y1+30, DispSize.X - 10, Y1 + 30, FntColor);
+      AsphCanvas.Line(DispSize.X - 23, Y2-10, DispSize.X - 10, Y2 - 10, FntColor);
+
+      PutMark(TrackColorSch.min);
+      PutMark(TrackColorSch.max);
+
+      for I := 0 to TrackColorSch.CSMarkCount-1 do
+        PutMark(TrackColorSch.CSMarks[I].Mark);
+
+   END
+   //-------------------------------------------------------------------------------
+   ELSE
+   BEGIN
+      maxN := trunc( (DispSize.Y - 34 -20 - Y1)/ 20 );     /// Max строк
+
+      Nrows := trunc( (TrackColorSch.CSMarkCount-2) / maxN )+1;
+      Nst := trunc((TrackColorSch.CSMarkCount-2) / Nrows)+1;
+
+      X1 := DispSize.X - 100*Nrows -30;
+      Y2 := Y1 + 20 + 20*(Nst);
+
+      if Nrows = 0 then
+        exit;
+
+      AsphCanvas.FillRect(RECT( X1, Y1-5, DispSize.X, Y2), IntColor);
+
+      sW := AsphFonts[Font0].TexWidth(inf[240+TrackColorSch.Kind]);
+
+      AsphFonts[Font0].TextOut( Point2( X1 +(DispSize.X-X1 -sW) div 2,  trunc(Y1-2)),
+                                 inf[240+TrackColorSch.Kind], cColor2(FntColor), 1.0);
+
+      for j := 1 to Nrows do
+      for I := 0 to Nst-1 do
+      begin
+        N := I + (Nrows-j)*Nst;
+
+        if N > TrackColorSch.CSMarkCount - 2 then
+          break;
+
+        s1 := MarkSt(TrackColorSch.CSMarks[N].Mark);
+        s2 := MarkSt(TrackColorSch.CSMarks[N+1].Mark);
+
+        if s1 <> s2 then
+          s1 := s1 + ' .. ' + s2;
+
+        AsphFonts[Font0].TextOut( Point2(DispSize.X - 100*j,  Y1 + 20 + I*20),
+                        s1, cColor2(FntColor), 1.0);
+
+        Col := CRGB4(trunc( TrackColorSch.CSMarks[N].R),
+                    trunc( TrackColorSch.CSMarks[N].G),
+                    trunc( TrackColorSch.CSMarks[N].B),
+                    255);
+
+         AsphCanvas.FillRect(RECT(DispSize.X - 100*j - 18, Y1 + 20 + I*20,
+                                  DispSize.X - 100*j - 5,  Y1 + 32 + I*20),
+                              Col);
+
+         AsphCanvas.Line(DispSize.X - 100*j - 18, Y1 + 20 + I*20,
+                         DispSize.X - 100*j - 18, Y1 + 32 + I*20, FntColor);
+         AsphCanvas.Line(DispSize.X - 100*j - 5, Y1 + 20 + I*20,
+                         DispSize.X - 100*j - 5, Y1 + 32 + I*20, FntColor);
+         AsphCanvas.Line(DispSize.X - 100*j - 18, Y1 + 20 + I*20,
+                         DispSize.X - 100*j - 5, Y1 + 20 + I*20, FntColor);
+         AsphCanvas.Line(DispSize.X - 100*j - 18, Y1 + 32 + I*20,
+                         DispSize.X - 100*j - 5,  Y1 + 32 + I*20, FntColor);
+      end;
+   END;
+end;
+
+procedure NordDirection(AsphCanvas:TAsphyreCanvas; BigSize, isRight: Boolean;
+      Msign, KmSign:String; FontN:Integer; IntColor, FntColor: Cardinal; ArrowKind: Byte;
+      Always: Boolean);
+var DopA: Cardinal;
+    MaxAlpha: byte;
+begin
+//  AsphCanvas.Antialias := true;
+  MaxAlpha := IntColor div $1000000;
+
+  if (_fi <> 0) or ( Always) then
+  begin
+    if NDAlpha < MaxAlpha  then
+       NDAlpha := NDAlpha + 5;
+    if NDAlpha > MaxAlpha then
+       NDAlpha := MaxAlpha;
+  end
+   else
+    if NDAlpha > 0  then
+       NDAlpha := NDAlpha - 10;
+
+  if NDAlpha < 0  then
+  begin
+    NDAlpha := 0;
+  end;
+
+  if NDalpha = 0 then
+     exit;
+
+  DopA := GetRValue(IntColor)+  GetGValue(IntColor)*$100 +
+          GetBValue(IntColor)*$10000 + trunc(NDalpha-1) * $1000000;//trunc(IntColor*NDAlpha/100);
+
+  AsphCanvas.FillCircle( DispSize.X - 40 , 40, 35.5, 24, cColor4(DopA));
+  AsphCanvas.Circle( Point2(DispSize.X - 40, 40), 35, 24, DopA);
+
+  AsphCanvas.UseImagePx(AsphImages.Image['az'+IntToStr(ArrowKind)+'.image'], pxBounds4(0, 0, 64, 64));
+       AsphCanvas.TexMap(pRotate4c(Point2(DispSize.X - 39, 41),Point2(64, 64), fi),cColor4(FntColor));
+
+  if ArrowKind = 2 then
+  Begin
+      AsphFonts[Font0].TextOut( Point2(DispSize.X - 39 + trunc(25*Sin(pi-Fi-0.6)) - trunc(AsphFonts[Font0].TextWidth(inf[60])) div 2,
+                                41  + trunc(25*Cos(pi-Fi-0.6))- trunc(AsphFonts[Font0].TextHeight(inf[60])) div 2),
+                              inf[60], {clWhite2} cColor2(FntColor), 1.0);
+
+      AsphFonts[Font0].TextOut( Point2(DispSize.X - 39 + trunc(25*Sin(2*pi-Fi+0.6)) - trunc(AsphFonts[Font0].TextWidth(inf[67])) div 2,
+                                41  + trunc(25*Cos(2*pi-Fi+0.6))- trunc(AsphFonts[Font0].TextHeight(inf[67])) div 2),
+                              inf[67], {clWhite2} cColor2(FntColor), 1.0);
+  End;
+
+end;
+
+end.

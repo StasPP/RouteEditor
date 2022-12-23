@@ -1,0 +1,28 @@
+unit UMarkH;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, BasicMapObjects, StdCtrls;
+
+type
+  TMarkH = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+  private
+    { Private declarations }
+  public
+    MarkHN : integer;
+    { Public declarations }
+  end;
+
+var
+  MarkH: TMarkH;
+
+implementation
+
+{$R *.dfm}
+
+end.
